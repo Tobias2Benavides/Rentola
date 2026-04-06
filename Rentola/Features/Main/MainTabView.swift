@@ -33,7 +33,7 @@ struct MainTabView: View {
             .tag(Tab.listing)
 
             NavigationStack(path: $coordinator.profile.path) {
-                ProfilePlaceholderView()
+                ProfileView()
                     .navigationDestination(for: ProfileCoordinator.Destination.self) { _ in
                         EmptyView()
                     }
