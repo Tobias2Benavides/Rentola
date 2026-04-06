@@ -13,9 +13,11 @@
 
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, PROF-01, PROF-02, PROF-03
 
-**Plans:**
-- Plan 1.1: App shell + auth — Xcode project, MVVM + Coordinator skeleton (AppCoordinator, 4-tab MainTabCoordinator, per-tab coordinators with placeholder screens), Supabase client initialised, RLS enabled on all tables from day one, email/password sign-up + sign-in + password-reset flow, session persistence via Supabase Auth
-- Plan 1.2: Profile — display name, bio, avatar upload to Supabase Storage; profile screen wired into ProfileCoordinator; aggregated rating field on user record (populated in Phase 4, rendered here)
+**Plans:** 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — App shell + auth: Xcode project, MVVM + Coordinator skeleton, Supabase client, RLS, email/password auth flows, database migration
+- [ ] 01-02-PLAN.md — Profile: display name, bio, avatar upload to Supabase Storage, profile screen, aggregated rating placeholder
 
 **Depends on:** —
 
