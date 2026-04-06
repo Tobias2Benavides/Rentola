@@ -9,9 +9,8 @@ enum AppRoute {
     case main
 }
 
-@Observable
-final class AppCoordinator {
-    var route: AppRoute = .loading
+final class AppCoordinator: ObservableObject {
+    @Published var route: AppRoute = .loading
 
     func startListening() async {
         for await (event, session) in supabase.auth.authStateChanges {

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ForgotPasswordView: View {
-    @State private var viewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel()
     @State private var resetSent = false
 
     var body: some View {

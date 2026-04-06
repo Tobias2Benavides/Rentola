@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var viewModel = ProfileViewModel()
+    @StateObject private var viewModel = ProfileViewModel()
     @State private var showEditProfile = false
 
     var body: some View {

@@ -3,7 +3,7 @@ import SwiftUI
 struct SignInView: View {
     let coordinator: AppCoordinator
 
-    @State private var viewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel()
     @State private var showForgotPassword = false
 
     var isSubmitDisabled: Bool {

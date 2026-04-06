@@ -1,12 +1,11 @@
 import Supabase
 
-@Observable
-final class AuthViewModel {
-    var email = ""
-    var password = ""
-    var confirmPassword = ""
-    var isLoading = false
-    var errorMessage: String?
+final class AuthViewModel: ObservableObject {
+    @Published var email = ""
+    @Published var password = ""
+    @Published var confirmPassword = ""
+    @Published var isLoading = false
+    @Published var errorMessage: String?
 
     func signUp(coordinator: AppCoordinator) async {
         guard !email.isEmpty, !password.isEmpty else {

@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct RentolaApp: App {
-    @State private var coordinator = AppCoordinator()
+    @StateObject private var coordinator = AppCoordinator()
 
     var body: some Scene {
         WindowGroup {

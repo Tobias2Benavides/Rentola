@@ -3,7 +3,7 @@ import SwiftUI
 struct SignUpView: View {
     let coordinator: AppCoordinator
 
-    @State private var viewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel()
 
     var isSubmitDisabled: Bool {
         viewModel.email.isEmpty

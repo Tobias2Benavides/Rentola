@@ -3,7 +3,7 @@ import SwiftUI
 struct UpdatePasswordView: View {
     let coordinator: AppCoordinator
 
-    @State private var viewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel()
     @State private var newPassword = ""
     @State private var confirmNewPassword = ""
 

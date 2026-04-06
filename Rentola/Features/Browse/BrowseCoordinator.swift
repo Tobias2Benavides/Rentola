@@ -1,8 +1,7 @@
 import SwiftUI
 
-@Observable
-final class BrowseCoordinator {
-    var path = NavigationPath()
+final class BrowseCoordinator: ObservableObject {
+    @Published var path = NavigationPath()
 
     enum Destination: Hashable {
         // Phase 2 adds: listingDetail(String), etc.

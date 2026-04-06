@@ -1,8 +1,7 @@
 import SwiftUI
 
-@Observable
-final class RentingCoordinator {
-    var path = NavigationPath()
+final class RentingCoordinator: ObservableObject {
+    @Published var path = NavigationPath()
 
     enum Destination: Hashable {
         // Phase 4 adds: rentalDetail(String), etc.

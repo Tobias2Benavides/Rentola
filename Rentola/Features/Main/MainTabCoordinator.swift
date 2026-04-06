@@ -25,10 +25,16 @@ enum Tab: Int, CaseIterable {
     }
 }
 
-@Observable
-final class MainTabCoordinator {
-    var selectedTab: Tab = .browse
+final class MainTabCoordinator: ObservableObject {
+    @Published var selectedTab: Tab = .browse
 
+    // NavigationPath per tab — @Published so TabView binding updates reliably on iOS 16
+    @Published var browsePath  = NavigationPath()
+    @Published var rentingPath = NavigationPath()
+    @Published var listingPath = NavigationPath()
+    @Published var profilePath = NavigationPath()
+
+    // Sub-coordinators for Phase 2+ navigation methods and Destination enums
     let browse  = BrowseCoordinator()
     let renting = RentingCoordinator()
     let listing = ListingCoordinator()

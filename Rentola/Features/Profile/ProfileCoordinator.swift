@@ -1,8 +1,7 @@
 import SwiftUI
 
-@Observable
-final class ProfileCoordinator {
-    var path = NavigationPath()
+final class ProfileCoordinator: ObservableObject {
+    @Published var path = NavigationPath()
 
     enum Destination: Hashable {
         // Phase 2 adds: editProfile, etc.

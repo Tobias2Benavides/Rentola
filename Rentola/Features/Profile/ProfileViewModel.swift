@@ -3,17 +3,16 @@ import PhotosUI
 import SwiftUI
 import UIKit
 
-@Observable
-final class ProfileViewModel {
-    var profile: UserProfile?
-    var isLoading = false
-    var isSaving = false
-    var errorMessage: String?
-    var selectedPhotoItem: PhotosPickerItem?
+final class ProfileViewModel: ObservableObject {
+    @Published var profile: UserProfile?
+    @Published var isLoading = false
+    @Published var isSaving = false
+    @Published var errorMessage: String?
+    @Published var selectedPhotoItem: PhotosPickerItem?
 
     // Editable fields (populated from profile on load)
-    var editDisplayName: String = ""
-    var editBio: String = ""
+    @Published var editDisplayName: String = ""
+    @Published var editBio: String = ""
 
     var isProfileIncomplete: Bool {
         guard let profile else { return true }
