@@ -80,8 +80,8 @@ create trigger profiles_updated_at
 -- Storage: avatars bucket + RLS
 -- ============================================================
 
--- Create avatars bucket (private — access controlled by RLS)
-insert into storage.buckets (id, name, public) values ('avatars', 'avatars', false);
+-- Create avatars bucket (public — URLs are directly embeddable in img tags)
+insert into storage.buckets (id, name, public) values ('avatars', 'avatars', true);
 
 -- Allow authenticated users to upload to their own folder
 create policy "Users can upload their own avatar"
