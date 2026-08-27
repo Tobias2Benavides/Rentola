@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rentola — Web
 
-## Getting Started
+Next.js 14 (App Router) + Supabase + Stripe Connect.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. `npm install`
+2. Copy `.env.example` to `.env.local` and fill in:
+   - Supabase URL/keys from **Project Settings → API** in your Supabase project
+   - Stripe **test mode** keys from `dashboard.stripe.com/test/apikeys`
+3. Apply the database migrations in `../supabase/migrations/` to your Supabase project (via the SQL editor, or `supabase db push` if you have the CLI + `SUPABASE_ACCESS_TOKEN` set).
+4. Forward Stripe webhooks to your local server: `stripe listen --forward-to localhost:3000/api/stripe/webhook` — copy the `whsec_...` it prints into `STRIPE_WEBHOOK_SECRET`.
+5. `npm run dev` → [http://localhost:3000](http://localhost:3000)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Payments (test mode)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Payouts use [Stripe Connect](https://stripe.com/docs/connect) Express accounts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- A listing owner connects payouts from their **Profile** page (`ConnectStripeButton` → `/api/stripe/connect`). This is required before they can approve any rental request.
+- A renter pays via Stripe Checkout after a request is approved (`RentalActions` → `/api/stripe/checkout`). The charge is split automatically: the platform fee (`PLATFORM_FEE_BPS` in `lib/stripe.ts`, currently 10%) stays with the platform account, the rest transfers to the owner's connected account.
+- `/api/stripe/webhook` listens for `checkout.session.completed` (marks the rental paid) and `account.updated` (marks Connect onboarding complete).
 
-## Learn More
+While `STRIPE_SECRET_KEY` is a `sk_test_...` key, no real money moves — use [Stripe's test cards](https://stripe.com/docs/testing) (e.g. `4242 4242 4242 4242`) to exercise the full flow. Switching to a live Stripe account later is just swapping the env vars to live keys and pointing the webhook endpoint at the deployed URL.
 
-To learn more about Next.js, take a look at the following resources:
+## Chat
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Messages are scoped to a `rental_id` (see `supabase/migrations/004_messages.sql`) and delivered live via Supabase Realtime — no separate service. A thread only exists once a rental request does.

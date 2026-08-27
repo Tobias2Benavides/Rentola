@@ -23,10 +23,9 @@ See: .planning/PROJECT.md (updated 2026-04-06)
 
 ## Position
 
-- **Phase:** 01-foundation
-- **Current Plan:** 2 of 2
-- **Stopped At:** Web app shell shipped — auth (sign up/in, forgot/update password) and profile (edit + avatar upload) work end-to-end against Supabase; Browse and Dashboard pages exist only as "coming in Phase 2/3" placeholders
-- **Last session:** 2026-04-11
+- **Phase:** 03-rental-transaction-and-lifecycle (chat + payments added ahead of schedule)
+- **Stopped At:** Listings, browse/search, the full rental lifecycle (request → approve/decline → pay → handoff → return, with atomic double-booking prevention), in-rental chat, and Stripe Connect payments (test mode) all work end-to-end. Reviews, moderation ("Report"/"Block"), and production deployment are not built yet.
+- **Last session:** 2026-08-27
 
 ## Milestone: Beta Launch
 
@@ -36,10 +35,10 @@ See: .planning/PROJECT.md (updated 2026-04-06)
 
 | Phase | Name | Status | Plans |
 |-------|------|--------|-------|
-| 1 | Foundation | In Progress (auth + profile done; browse/dashboard placeholders only) | 2 |
-| 2 | Marketplace Supply and Discovery | Pending | — |
-| 3 | Rental Transaction and Lifecycle | Pending | — |
-| 4 | Trust and Launch Readiness | Pending | — |
+| 1 | Foundation | Done — auth, profile | 2 |
+| 2 | Marketplace Supply and Discovery | Done — listings CRUD, photo upload, browse/search | 2 |
+| 3 | Rental Transaction and Lifecycle | Done — request/approve/decline, atomic double-booking prevention, handoff/return, dashboards; chat and Stripe Connect payments pulled forward into this phase | 2 |
+| 4 | Trust and Launch Readiness | Pending — reviews, Report/Block, production deploy | — |
 
 ## Stack
 
@@ -55,10 +54,18 @@ See: .planning/PROJECT.md (updated 2026-04-06)
 - RLS enabled from the first migration (`profiles` table + `avatars` storage bucket) — this pattern must be repeated for every table added in Phase 2+ (listings, rentals, reviews), not retrofitted.
 - supabase db push not executed — Supabase CLI not installed and no SUPABASE_ACCESS_TOKEN set; documented as user setup step
 
+## Notes on scope taken vs. original roadmap
+
+- **Proximity search deferred:** Browse uses keyword + category filtering with a plain `city` text field, not PostGIS `ST_DWithin`. The original plan's own fallback (city-text when location is denied) became the only path for now — full geo search is still open.
+- **Payments implemented ahead of Phase 4:** Stripe Connect (Express accounts, destination charges, 10% platform fee) was built in test mode — see `web/README.md` for the local setup (`stripe listen`, test cards). Going live is a matter of swapping in live Stripe keys; no code change needed.
+- **Chat added (not in original roadmap):** messages are scoped to `rental_id`, delivered via Supabase Realtime — see `supabase/migrations/004_messages.sql`.
+- **Email notifications not built:** the original plan's Resend/Edge Function notification layer (approve/decline emails, 24h expiry warnings) is not implemented — dashboard + realtime chat are the only signal right now.
+
 ## Next Action
 
-Build Phase 2 (Marketplace Supply and Discovery): listing creation form + image upload, and the Browse page's `listings_near` proximity search — replacing the current placeholder pages.
+Phase 4: reviews (mutual, triggered on `returned` status), "Report Listing"/"Block User", and production deployment to Vercel with the Stripe webhook endpoint pointed at the live domain.
 
 ---
 *Initialized: 2026-04-06*
 *Pivoted to web (Next.js) and iOS code removed: 2026-08-27*
+*Listings, rental lifecycle, chat, and Stripe Connect (test mode) built: 2026-08-27*

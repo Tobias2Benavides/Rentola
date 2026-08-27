@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import Image from 'next/image'
+import ConnectStripeButton from '@/components/ConnectStripeButton'
+import type { Profile } from '@/lib/types'
 
 export default async function ProfilePage() {
   const supabase = createClient()
@@ -10,7 +12,7 @@ export default async function ProfilePage() {
     .from('profiles')
     .select('*')
     .eq('id', user!.id)
-    .single()
+    .single<Profile>()
 
   const displayName = profile?.display_name ?? ''
   const bio = profile?.bio ?? ''
@@ -98,6 +100,17 @@ export default async function ProfilePage() {
           </svg>
           <span className="text-sm text-gray-400">No reviews yet</span>
         </div>
+      </div>
+
+      {/* Payouts */}
+      <div className="space-y-2 rounded-2xl border border-gray-200 bg-white p-5">
+        <p className="font-semibold text-gray-900">Payouts</p>
+        <p className="text-sm text-gray-500">
+          {profile?.stripe_onboarding_complete
+            ? 'Your Stripe account is connected — you can approve rental requests and get paid.'
+            : 'Connect a Stripe account to get paid when you approve rental requests.'}
+        </p>
+        <ConnectStripeButton isConnected={Boolean(profile?.stripe_onboarding_complete)} />
       </div>
     </div>
   )
