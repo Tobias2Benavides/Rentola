@@ -65,7 +65,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
               )}
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">{owner?.display_name ?? 'Rentola user'}</p>
+              <p className="text-sm font-semibold text-gray-900">{owner?.display_name ?? 'Rentify user'}</p>
               <p className="text-xs text-gray-400">Item owner</p>
             </div>
           </div>

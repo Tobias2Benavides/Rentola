@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES } from '@/lib/categories'
+import { CITIES } from '@/lib/cities'
 import type { Listing } from '@/lib/types'
 
 const MAX_PHOTOS = 5
@@ -36,16 +37,35 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
   const [newFiles, setNewFiles] = useState<{ file: File; preview: string }[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isDraggingOver, setIsDraggingOver] = useState(false)
 
   const totalPhotos = existingPhotos.length + newFiles.length
   const isDisabled = !title || !city || !pricePerDay || totalPhotos === 0 || isLoading
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? [])
+  function addFiles(files: File[]) {
     const room = MAX_PHOTOS - totalPhotos
-    const accepted = files.slice(0, room)
+    const accepted = files.filter((f) => f.type.startsWith('image/')).slice(0, room)
     setNewFiles((prev) => [...prev, ...accepted.map((file) => ({ file, preview: URL.createObjectURL(file) }))])
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    addFiles(Array.from(e.target.files ?? []))
     e.target.value = ''
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    setIsDraggingOver(false)
+    addFiles(Array.from(e.dataTransfer.files ?? []))
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    if (totalPhotos < MAX_PHOTOS) setIsDraggingOver(true)
+  }
+
+  function handleDragLeave() {
+    setIsDraggingOver(false)
   }
 
   function removeExisting(path: string) {
@@ -128,7 +148,14 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
         <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
           Photos ({totalPhotos}/{MAX_PHOTOS})
         </label>
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+        <div
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={`grid grid-cols-3 gap-3 rounded-xl p-1 transition-colors sm:grid-cols-5 ${
+            isDraggingOver ? 'bg-gray-100 ring-2 ring-gray-900' : ''
+          }`}
+        >
           {existingPhotos.map((photo) => (
             <div key={photo.path} className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
               <Image src={photo.url} alt="" fill className="object-cover" />
@@ -157,9 +184,10 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-500"
+              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-500"
             >
-              +
+              <span className="text-xl leading-none">+</span>
+              <span className="text-[10px] leading-tight">or drop here</span>
             </button>
           )}
         </div>
@@ -246,11 +274,17 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
         <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">City</label>
         <input
           type="text"
-          placeholder="e.g. Austin, TX"
+          list="city-options"
+          placeholder="Start typing a city…"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
         />
+        <datalist id="city-options">
+          {CITIES.map((c) => (
+            <option key={c} value={c} />
+          ))}
+        </datalist>
       </div>
 
       {error && <p className="text-sm text-red-500">{error}</p>}

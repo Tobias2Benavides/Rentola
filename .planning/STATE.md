@@ -60,6 +60,7 @@ See: .planning/PROJECT.md (updated 2026-04-06)
 - **Payments implemented ahead of Phase 4:** Stripe Connect (Express accounts, destination charges, 10% platform fee) was built in test mode — see `web/README.md` for the local setup (`stripe listen`, test cards). Going live is a matter of swapping in live Stripe keys; no code change needed.
 - **Chat added (not in original roadmap):** messages are scoped to `rental_id`, delivered via Supabase Realtime — see `supabase/migrations/004_messages.sql`.
 - **Email notifications not built:** the original plan's Resend/Edge Function notification layer (approve/decline emails, 24h expiry warnings) is not implemented — dashboard + realtime chat are the only signal right now.
+- **LIFE-03 partially covered (in-app only):** added a "Due back tomorrow" banner to the dashboard (`app/(app)/dashboard/page.tsx`, `lib/format.ts#isDueTomorrow`) that surfaces any `active` rental whose `end_date` is tomorrow, for both the renter and owner side, with a link to the rental. This satisfies the requirement's intent (LIFE-03: 24h-before notification) without the Resend/Edge Function/pg_cron infrastructure — it only fires while someone visits the dashboard, so it's a stopgap for the real push/email notification, not a replacement for it. 2026-08-28.
 
 ## Next Action
 

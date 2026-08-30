@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
         price_data: {
           currency: 'usd',
           unit_amount: amountCents,
-          product_data: { name: listing?.title ?? 'Rentola rental' },
+          product_data: { name: listing?.title ?? 'Rentify rental' },
         },
         quantity: 1,
       },

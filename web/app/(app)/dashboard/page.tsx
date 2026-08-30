@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { formatDate, formatPrice } from '@/lib/format'
-import type { Listing, Rental, RentalStatus } from '@/lib/types'
+import { formatDate, formatPrice, isDueTomorrow } from '@/lib/format'
+import type { Listing, Profile, Rental, RentalStatus } from '@/lib/types'
 
 const STATUS_STYLES: Record<RentalStatus, string> = {
   pending: 'bg-yellow-100 text-yellow-800',
@@ -18,6 +18,46 @@ function needsAction(rental: Rental, role: 'renter' | 'owner'): boolean {
   if (rental.status === 'approved' && rental.payment_status === 'paid') return true
   if (rental.status === 'active') return true
   return false
+}
+
+function DueTomorrowBanner({
+  rentals,
+  listingsById,
+  counterpartyNameById,
+  userId,
+}: {
+  rentals: Rental[]
+  listingsById: Map<string, Listing>
+  counterpartyNameById: Map<string, string>
+  userId: string
+}) {
+  if (rentals.length === 0) return null
+
+  return (
+    <div className="space-y-2 rounded-2xl border border-amber-300 bg-amber-50 p-4">
+      <p className="text-sm font-semibold text-amber-900">Due back tomorrow</p>
+      <ul className="space-y-1">
+        {rentals.map((rental) => {
+          const listing = listingsById.get(rental.listing_id)
+          const title = listing?.title ?? 'this item'
+          const isRenter = rental.renter_id === userId
+          const counterparty = counterpartyNameById.get(isRenter ? rental.owner_id : rental.renter_id) ?? 'them'
+          return (
+            <li key={rental.id}>
+              <Link
+                href={`/rentals/${rental.id}`}
+                className="text-sm text-amber-900 underline decoration-amber-400 underline-offset-2 hover:text-amber-950"
+              >
+                {isRenter
+                  ? `Return "${title}" to ${counterparty} by ${formatDate(rental.end_date)}`
+                  : `${counterparty} needs to return "${title}" by ${formatDate(rental.end_date)}`}
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
 }
 
 function RentalGroup({
@@ -93,6 +133,17 @@ export default async function DashboardPage() {
     : { data: [] as Listing[] }
   const listingsById = new Map((listings ?? []).map((l) => [l.id, l]))
 
+  const dueTomorrow = [...(renting ?? []), ...(lending ?? [])].filter(
+    (r) => r.status === 'active' && isDueTomorrow(r.end_date)
+  )
+  const counterpartyIds = Array.from(
+    new Set(dueTomorrow.map((r) => (r.renter_id === user!.id ? r.owner_id : r.renter_id)))
+  )
+  const { data: counterparties } = counterpartyIds.length
+    ? await supabase.from('profiles').select('id, display_name').in('id', counterpartyIds).returns<Pick<Profile, 'id' | 'display_name'>[]>()
+    : { data: [] as Pick<Profile, 'id' | 'display_name'>[] }
+  const counterpartyNameById = new Map((counterparties ?? []).map((p) => [p.id, p.display_name ?? 'them']))
+
   const activeRenting = (renting ?? []).filter((r) => r.status === 'approved' || r.status === 'active').length
   const activeLending = (lending ?? []).filter((r) => r.status === 'approved' || r.status === 'active').length
 
@@ -102,6 +153,13 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <p className="mt-1 text-gray-500">Track your active rentals</p>
       </div>
+
+      <DueTomorrowBanner
+        rentals={dueTomorrow}
+        listingsById={listingsById}
+        counterpartyNameById={counterpartyNameById}
+        userId={user!.id}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl border border-gray-200 bg-white p-6">

@@ -62,7 +62,7 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
               {formatDate(rental.start_date)} → {formatDate(rental.end_date)}
             </p>
             <p className="mt-1 text-sm text-gray-500">
-              {isOwner ? 'Renter' : 'Owner'}: {otherParty?.display_name ?? 'Rentola user'}
+              {isOwner ? 'Renter' : 'Owner'}: {otherParty?.display_name ?? 'Rentify user'}
             </p>
           </div>
           <div className="text-right">

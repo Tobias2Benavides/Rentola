@@ -26,7 +26,7 @@ export default function NavBar() {
     <header className="border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
         <Link href="/browse" className="text-xl font-bold tracking-tight text-gray-900">
-          Rentola
+          Rentify
         </Link>
 
         <nav className="flex items-center gap-1">

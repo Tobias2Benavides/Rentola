@@ -1,4 +1,4 @@
-# Rentola — Web
+# Rentify — Web
 
 Next.js 14 (App Router) + Supabase + Stripe Connect.
 
