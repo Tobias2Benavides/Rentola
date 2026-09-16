@@ -25,9 +25,20 @@ export async function POST(request: NextRequest) {
   const stripe = getStripe()
 
   if (!accountId) {
-    const account = await stripe.accounts.create({
-      type: 'express',
-      email: user.email,
+    // Stripe's newer Accounts v2 API — the v1 accounts.create({type: 'express'})
+    // call is rejected on platforms that activated Connect after v2 became the
+    // default. "recipient" configuration matches our destination-charge model:
+    // the platform is merchant of record, the connected account just receives payouts.
+    const account = await stripe.v2.core.accounts.create({
+      contact_email: user.email,
+      dashboard: 'express',
+      configuration: {
+        recipient: {
+          capabilities: {
+            stripe_balance: { stripe_transfers: { requested: true } },
+          },
+        },
+      },
     })
     accountId = account.id
     await admin.from('profiles').update({ stripe_account_id: accountId }).eq('id', user.id)
@@ -35,11 +46,16 @@ export async function POST(request: NextRequest) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? request.nextUrl.origin
 
-  const accountLink = await stripe.accountLinks.create({
+  const accountLink = await stripe.v2.core.accountLinks.create({
     account: accountId,
-    refresh_url: `${siteUrl}/profile`,
-    return_url: `${siteUrl}/profile`,
-    type: 'account_onboarding',
+    use_case: {
+      type: 'account_onboarding',
+      account_onboarding: {
+        configurations: ['recipient'],
+        refresh_url: `${siteUrl}/profile`,
+        return_url: `${siteUrl}/profile`,
+      },
+    },
   })
 
   return NextResponse.json({ url: accountLink.url })

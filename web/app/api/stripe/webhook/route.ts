@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
       break
     }
 
+    // Legacy v1 Connect accounts — kept in case any were created before the
+    // Accounts v2 migration below.
     case 'account.updated': {
       const account = event.data.object as Stripe.Account
       await admin
@@ -52,8 +54,25 @@ export async function POST(request: NextRequest) {
       break
     }
 
-    default:
+    default: {
+      // Accounts v2 events use a "thin" envelope (type starts with
+      // "v2.core.account") — no embedded object, just a related_object.id
+      // to look up. Re-fetch the account to read the current capability status.
+      if (event.type.startsWith('v2.core.account')) {
+        const accountId = (event as unknown as { related_object?: { id?: string } }).related_object?.id
+        if (accountId) {
+          const account = await getStripe().v2.core.accounts.retrieve(accountId, {
+            include: ['configuration.recipient'],
+          })
+          const status = account.configuration?.recipient?.capabilities?.stripe_balance?.stripe_transfers?.status
+          await admin
+            .from('profiles')
+            .update({ stripe_onboarding_complete: status === 'active' })
+            .eq('stripe_account_id', accountId)
+        }
+      }
       break
+    }
   }
 
   return NextResponse.json({ received: true })
