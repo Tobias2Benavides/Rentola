@@ -39,6 +39,15 @@ export async function POST(request: NextRequest) {
           },
         },
       },
+      // Required whenever a recipient has the stripe_transfers capability:
+      // the platform (us) is the merchant of record and absorbs negative
+      // balances, matching how v1 Express destination charges worked.
+      defaults: {
+        responsibilities: {
+          fees_collector: 'application_express',
+          losses_collector: 'application',
+        },
+      },
     })
     accountId = account.id
     await admin.from('profiles').update({ stripe_account_id: accountId }).eq('id', user.id)
