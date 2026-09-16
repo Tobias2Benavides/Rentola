@@ -10,17 +10,32 @@ import { getStripe } from '@/lib/stripe'
 export async function POST(request: NextRequest) {
   const body = await request.text()
   const signature = request.headers.get('stripe-signature')
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
-  if (!signature || !webhookSecret) {
+  // Stripe requires a separate event destination (and signing secret) per
+  // "scope" — v1-style events (checkout.session.completed) and v2 Accounts
+  // events (v2.core.account...) can't share one destination even though both
+  // point at this same URL. Try each configured secret in turn.
+  const webhookSecrets = [process.env.STRIPE_WEBHOOK_SECRET, process.env.STRIPE_WEBHOOK_SECRET_CONNECT].filter(
+    (s): s is string => Boolean(s)
+  )
+
+  if (!signature || webhookSecrets.length === 0) {
     return NextResponse.json({ error: 'Missing webhook signature or secret' }, { status: 400 })
   }
 
-  let event: Stripe.Event
-  try {
-    event = getStripe().webhooks.constructEvent(body, signature, webhookSecret)
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Invalid signature'
+  let event: Stripe.Event | null = null
+  let lastError: unknown = null
+  for (const secret of webhookSecrets) {
+    try {
+      event = getStripe().webhooks.constructEvent(body, signature, secret)
+      break
+    } catch (err) {
+      lastError = err
+    }
+  }
+
+  if (!event) {
+    const message = lastError instanceof Error ? lastError.message : 'Invalid signature'
     return NextResponse.json({ error: `Webhook signature verification failed: ${message}` }, { status: 400 })
   }
 
