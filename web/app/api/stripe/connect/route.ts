@@ -32,6 +32,11 @@ export async function POST(request: NextRequest) {
     const account = await stripe.v2.core.accounts.create({
       contact_email: user.email,
       dashboard: 'express',
+      identity: {
+        // Rentify launches in the Netherlands — the onboarding flow lets the
+        // owner correct this if they're actually elsewhere.
+        country: 'NL',
+      },
       configuration: {
         recipient: {
           capabilities: {
