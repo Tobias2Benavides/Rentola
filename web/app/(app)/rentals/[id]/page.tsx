@@ -77,6 +77,23 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
           <p className="mt-4 rounded-xl bg-gray-50 p-3 text-sm text-gray-600">&ldquo;{rental.message}&rdquo;</p>
         )}
 
+        {rental.late_fee_amount != null && (
+          <p
+            className={`mt-4 rounded-xl p-3 text-sm ${
+              rental.late_fee_status === 'charged'
+                ? 'bg-yellow-50 text-yellow-800'
+                : 'bg-red-50 text-red-700'
+            }`}
+          >
+            {rental.late_fee_status === 'charged' &&
+              `A late-return fee of ${formatPrice(rental.late_fee_amount)} was charged for returning after the due date.`}
+            {rental.late_fee_status === 'failed' &&
+              `A late-return fee of ${formatPrice(rental.late_fee_amount)} was due, but the charge failed — the owner should be paid directly.`}
+            {rental.late_fee_status === 'no_payment_method' &&
+              `A late-return fee of ${formatPrice(rental.late_fee_amount)} is due, but no saved payment method was found — the owner should be paid directly.`}
+          </p>
+        )}
+
         {isOwner && !owner?.stripe_onboarding_complete && rental.status === 'pending' && (
           <p className="mt-4 rounded-xl bg-yellow-50 p-3 text-sm text-yellow-800">
             You need to{' '}

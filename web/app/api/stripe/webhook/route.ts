@@ -11,12 +11,27 @@ async function handleV1Event(event: Stripe.Event, admin: AdminClient) {
       const session = event.data.object as Stripe.Checkout.Session
       const rentalId = session.metadata?.rental_id
       if (rentalId) {
+        const paymentIntentId =
+          typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id
+
+        // Fetch the payment method used, so a late-return fee can be
+        // charged off-session later against the same card.
+        let paymentMethodId: string | null = null
+        if (paymentIntentId) {
+          const paymentIntent = await getStripe().paymentIntents.retrieve(paymentIntentId)
+          paymentMethodId =
+            typeof paymentIntent.payment_method === 'string'
+              ? paymentIntent.payment_method
+              : paymentIntent.payment_method?.id ?? null
+        }
+
         await admin
           .from('rentals')
           .update({
             payment_status: 'paid',
-            stripe_payment_intent_id:
-              typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id,
+            stripe_payment_intent_id: paymentIntentId,
+            stripe_customer_id: typeof session.customer === 'string' ? session.customer : session.customer?.id,
+            stripe_payment_method_id: paymentMethodId,
           })
           .eq('id', rentalId)
       }

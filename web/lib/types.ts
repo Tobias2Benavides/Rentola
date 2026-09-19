@@ -38,6 +38,11 @@ export interface Rental {
   payment_status: PaymentStatus
   stripe_checkout_session_id: string | null
   stripe_payment_intent_id: string | null
+  stripe_customer_id: string | null
+  stripe_payment_method_id: string | null
+  late_fee_amount: number | null
+  late_fee_status: 'charged' | 'failed' | 'no_payment_method' | null
+  late_fee_payment_intent_id: string | null
   created_at: string
 }
 

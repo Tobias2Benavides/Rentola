@@ -65,6 +65,14 @@ export async function POST(request: NextRequest) {
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
+    // Saves the card to a Customer so a late-return fee can be charged
+    // off-session later, without the renter re-entering payment details.
+    customer_creation: 'always',
+    payment_intent_data: {
+      application_fee_amount: platformFeeFor(amountCents),
+      transfer_data: { destination: ownerProfile.stripe_account_id },
+      setup_future_usage: 'off_session',
+    },
     line_items: [
       {
         price_data: {
@@ -75,10 +83,6 @@ export async function POST(request: NextRequest) {
         quantity: 1,
       },
     ],
-    payment_intent_data: {
-      application_fee_amount: platformFeeFor(amountCents),
-      transfer_data: { destination: ownerProfile.stripe_account_id },
-    },
     metadata: { rental_id: rental.id },
     success_url: `${siteUrl}/rentals/${rental.id}?paid=1`,
     cancel_url: `${siteUrl}/rentals/${rental.id}`,

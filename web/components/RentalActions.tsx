@@ -31,6 +31,23 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
     router.refresh()
   }
 
+  async function confirmReturn() {
+    setError(null)
+    setPending('confirm_rental_return')
+    const res = await fetch('/api/rentals/confirm-return', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rentalId }),
+    })
+    const data = await res.json()
+    setPending(null)
+    if (!res.ok) {
+      setError(data.error ?? 'Could not confirm return')
+      return
+    }
+    router.refresh()
+  }
+
   async function payNow() {
     setError(null)
     setPending('pay')
@@ -101,7 +118,7 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
     buttons.push(
       <button
         key="return"
-        onClick={() => callRpc('confirm_rental_return')}
+        onClick={confirmReturn}
         disabled={pending !== null}
         className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
       >
