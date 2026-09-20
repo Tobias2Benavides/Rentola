@@ -124,32 +124,46 @@ export default function AvailabilityCalendar({ blockedDates, startDate, endDate,
           const past = date < today
           const isStart = iso === startDate
           const isEnd = iso === endDate
-          const inRange = Boolean(startDate && endDate && iso > startDate && iso < endDate)
+          const inSelectedRange = Boolean(startDate && endDate && iso >= startDate && iso <= endDate)
           const isEndpoint = isStart || isEnd
 
-          let classes = 'mx-auto flex h-8 w-8 items-center justify-center text-sm '
+          // A contiguous band (booked or selected) is only rounded at its
+          // true start/end — everywhere else it butts up against its
+          // neighbor with no gap, so it reads as one continuous pill.
+          const prevBlocked = blockedSet.has(toISODate(addDays(date, -1)))
+          const nextBlocked = blockedSet.has(toISODate(addDays(date, 1)))
+
+          let bandClasses = 'relative flex h-8 items-center justify-center '
           if (blocked) {
-            classes += 'rounded-full bg-green-100 text-green-700 cursor-not-allowed'
+            bandClasses += `bg-green-100 ${prevBlocked ? '' : 'rounded-l-full'} ${nextBlocked ? '' : 'rounded-r-full'}`
+          } else if (inSelectedRange) {
+            bandClasses += `bg-gray-100 ${isStart ? 'rounded-l-full' : ''} ${isEnd ? 'rounded-r-full' : ''}`
+          }
+
+          let dayClasses = 'flex h-8 w-8 items-center justify-center rounded-full text-sm '
+          if (blocked) {
+            dayClasses += 'text-green-700 cursor-not-allowed'
           } else if (past) {
-            classes += 'text-gray-300 cursor-not-allowed'
+            dayClasses += 'text-gray-300 cursor-not-allowed'
           } else if (isEndpoint) {
-            classes += 'rounded-full bg-gray-900 font-semibold text-white'
-          } else if (inRange) {
-            classes += 'bg-gray-100 text-gray-900'
+            dayClasses += 'bg-gray-900 font-semibold text-white'
+          } else if (inSelectedRange) {
+            dayClasses += 'text-gray-900'
           } else {
-            classes += 'rounded-full text-gray-700 hover:bg-gray-100'
+            dayClasses += 'text-gray-700 hover:bg-gray-100'
           }
 
           return (
-            <button
-              type="button"
-              key={iso}
-              disabled={blocked || past}
-              onClick={() => handleDayClick(iso)}
-              className={classes}
-            >
-              {date.getDate()}
-            </button>
+            <div key={iso} className={bandClasses}>
+              <button
+                type="button"
+                disabled={blocked || past}
+                onClick={() => handleDayClick(iso)}
+                className={dayClasses}
+              >
+                {date.getDate()}
+              </button>
+            </div>
           )
         })}
       </div>
