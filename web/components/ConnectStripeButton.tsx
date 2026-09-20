@@ -24,7 +24,7 @@ export default function ConnectStripeButton({ isConnected }: { isConnected: bool
       <button
         onClick={handleClick}
         disabled={isLoading}
-        className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-30"
+        className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-30"
       >
         {isLoading ? 'Redirecting…' : isConnected ? 'Manage Payouts' : 'Connect Payouts with Stripe'}
       </button>

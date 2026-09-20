@@ -52,7 +52,7 @@ export default function SignUpPage() {
           <p className="text-gray-500">
             We sent a confirmation link to <strong>{email}</strong>. Click it to activate your account.
           </p>
-          <Link href="/sign-in" className="block text-sm font-medium text-gray-900 underline underline-offset-4">
+          <Link href="/sign-in" className="block text-sm font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
             Back to sign in
           </Link>
         </div>
@@ -79,7 +79,7 @@ export default function SignUpPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
           </div>
 
@@ -93,7 +93,7 @@ export default function SignUpPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
           </div>
 
@@ -107,7 +107,7 @@ export default function SignUpPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
             {confirmPassword && password !== confirmPassword && (
               <p className="text-xs text-red-500">Passwords do not match</p>
@@ -119,7 +119,7 @@ export default function SignUpPage() {
           <button
             type="submit"
             disabled={isDisabled}
-            className="w-full rounded-xl bg-gray-900 py-4 font-semibold text-white transition-opacity disabled:opacity-30"
+            className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-4 font-semibold text-white transition disabled:opacity-30"
           >
             {isLoading ? 'Creating account…' : 'Create Account'}
           </button>
@@ -127,7 +127,7 @@ export default function SignUpPage() {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
-          <Link href="/sign-in" className="font-medium text-gray-900 underline underline-offset-4">
+          <Link href="/sign-in" className="font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
             Sign in
           </Link>
         </p>

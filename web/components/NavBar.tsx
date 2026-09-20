@@ -38,7 +38,7 @@ export default function NavBar() {
                 href={href}
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-gray-100 text-gray-900'
+                    ? 'bg-emerald-50 text-emerald-800'
                     : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
                 }`}
               >

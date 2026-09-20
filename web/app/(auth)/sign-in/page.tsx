@@ -50,7 +50,7 @@ export default function SignInPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
           </div>
 
@@ -64,7 +64,7 @@ export default function SignInPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
           </div>
 
@@ -73,21 +73,21 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={isDisabled}
-            className="w-full rounded-xl bg-gray-900 py-4 font-semibold text-white transition-opacity disabled:opacity-30"
+            className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-4 font-semibold text-white transition disabled:opacity-30"
           >
             {isLoading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
 
         <div className="mt-4 text-center">
-          <Link href="/forgot-password" className="text-sm font-medium text-gray-900 underline underline-offset-4">
+          <Link href="/forgot-password" className="text-sm font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
             Forgot password?
           </Link>
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Don&apos;t have an account?{' '}
-          <Link href="/sign-up" className="font-medium text-gray-900 underline underline-offset-4">
+          <Link href="/sign-up" className="font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
             Create one
           </Link>
         </p>

@@ -22,7 +22,7 @@ export default async function MyListingsPage() {
           <h1 className="text-2xl font-bold text-gray-900">My Listings</h1>
           <p className="mt-1 text-gray-500">Items you&apos;re renting out</p>
         </div>
-        <Link href="/listings/new" className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white">
+        <Link href="/listings/new" className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2 text-sm font-semibold text-white">
           + List an item
         </Link>
       </div>
@@ -62,7 +62,7 @@ export default async function MyListingsPage() {
                     <Link href={`/browse/${listing.id}`} className="text-gray-500 hover:text-gray-900">
                       View
                     </Link>
-                    <Link href={`/listings/${listing.id}/edit`} className="text-gray-900 underline underline-offset-4">
+                    <Link href={`/listings/${listing.id}/edit`} className="text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
                       Edit
                     </Link>
                   </div>

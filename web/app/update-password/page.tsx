@@ -49,7 +49,7 @@ export default function UpdatePasswordPage() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               autoComplete="new-password"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
           </div>
 
@@ -63,7 +63,7 @@ export default function UpdatePasswordPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"
-              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+              className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
             />
             {confirmPassword && newPassword !== confirmPassword && (
               <p className="text-xs text-red-500">Passwords do not match</p>
@@ -75,7 +75,7 @@ export default function UpdatePasswordPage() {
           <button
             type="submit"
             disabled={isDisabled}
-            className="w-full rounded-xl bg-gray-900 py-4 font-semibold text-white transition-opacity disabled:opacity-30"
+            className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-4 font-semibold text-white transition disabled:opacity-30"
           >
             {isLoading ? 'Updating…' : 'Update Password'}
           </button>

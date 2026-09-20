@@ -209,7 +209,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
           placeholder="e.g. Electric pressure washer"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
         />
       </div>
 
@@ -221,7 +221,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
-          className="w-full resize-none rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full resize-none rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
         />
       </div>
 
@@ -231,7 +231,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 outline-none focus:ring-2 focus:ring-emerald-600"
         >
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>
@@ -252,7 +252,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
             placeholder="15.00"
             value={pricePerDay}
             onChange={(e) => setPricePerDay(e.target.value)}
-            className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
           />
         </div>
         <div className="space-y-1.5">
@@ -264,7 +264,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
             placeholder="80.00"
             value={pricePerWeek}
             onChange={(e) => setPricePerWeek(e.target.value)}
-            className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
           />
         </div>
       </div>
@@ -278,7 +278,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
           placeholder="Start typing a city…"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
         />
         <datalist id="city-options">
           {CITIES.map((c) => (
@@ -292,7 +292,7 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
       <button
         type="submit"
         disabled={isDisabled}
-        className="w-full rounded-xl bg-gray-900 py-4 font-semibold text-white transition-opacity disabled:opacity-30"
+        className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-4 font-semibold text-white transition disabled:opacity-30"
       >
         {isLoading ? 'Saving…' : mode === 'create' ? 'Publish Listing' : 'Save Changes'}
       </button>

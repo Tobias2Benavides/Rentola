@@ -33,12 +33,12 @@ export default async function BrowsePage({
           name="q"
           placeholder="Search listings…"
           defaultValue={q}
-          className="w-full rounded-xl bg-gray-100 px-4 py-3 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900 sm:flex-1"
+          className="w-full rounded-xl bg-gray-100 px-4 py-3 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600 sm:flex-1"
         />
         <select
           name="category"
           defaultValue={category}
-          className="w-full rounded-xl bg-gray-100 px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-gray-900 sm:w-56"
+          className="w-full rounded-xl bg-gray-100 px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-emerald-600 sm:w-56"
         >
           <option value="">All categories</option>
           {CATEGORIES.map((c) => (
@@ -47,7 +47,7 @@ export default async function BrowsePage({
             </option>
           ))}
         </select>
-        <button type="submit" className="rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white">
+        <button type="submit" className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-6 py-3 text-sm font-semibold text-white">
           Search
         </button>
       </form>

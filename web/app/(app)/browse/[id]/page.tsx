@@ -90,7 +90,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
               <p className="text-sm text-gray-500">This is your listing.</p>
               <Link
                 href={`/listings/${listing.id}/edit`}
-                className="block w-full rounded-xl bg-gray-900 py-3 text-center text-sm font-semibold text-white"
+                className="block w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-3 text-center text-sm font-semibold text-white"
               >
                 Edit Listing
               </Link>

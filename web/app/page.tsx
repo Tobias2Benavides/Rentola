@@ -16,7 +16,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/sign-up"
-              className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white"
+              className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2 text-sm font-semibold text-white"
             >
               Get started
             </Link>
@@ -35,7 +35,7 @@ export default function HomePage() {
         <div className="mt-10 flex gap-4">
           <Link
             href="/sign-up"
-            className="rounded-2xl bg-gray-900 px-8 py-4 text-base font-semibold text-white shadow-sm"
+            className="rounded-2xl bg-emerald-700 hover:bg-emerald-800 px-8 py-4 text-base font-semibold text-white shadow-sm"
           >
             Start renting
           </Link>

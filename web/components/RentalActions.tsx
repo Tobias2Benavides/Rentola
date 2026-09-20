@@ -73,7 +73,7 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
         key="approve"
         onClick={() => callRpc('respond_to_rental', { p_approve: true })}
         disabled={pending !== null}
-        className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
+        className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
       >
         {pending === 'respond_to_rental' ? 'Working…' : 'Approve'}
       </button>,
@@ -94,7 +94,7 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
         key="pay"
         onClick={payNow}
         disabled={pending !== null}
-        className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
+        className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
       >
         {pending === 'pay' ? 'Redirecting…' : 'Pay Now'}
       </button>
@@ -107,7 +107,7 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
         key="handoff"
         onClick={() => callRpc('confirm_rental_handoff')}
         disabled={pending !== null}
-        className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
+        className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
       >
         {pending === 'confirm_rental_handoff' ? 'Working…' : 'Confirm Handoff'}
       </button>
@@ -120,7 +120,7 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
         key="return"
         onClick={confirmReturn}
         disabled={pending !== null}
-        className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
+        className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
       >
         {pending === 'confirm_rental_return' ? 'Working…' : 'Confirm Return'}
       </button>

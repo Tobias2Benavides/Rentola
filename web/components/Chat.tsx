@@ -65,7 +65,7 @@ export default function Chat({ rentalId, currentUserId }: { rentalId: string; cu
             <div key={m.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
               <div
                 className={`max-w-[75%] rounded-2xl px-3.5 py-2 text-sm ${
-                  isMine ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'
+                  isMine ? 'bg-emerald-700 text-white' : 'bg-gray-100 text-gray-900'
                 }`}
               >
                 {m.body}
@@ -82,12 +82,12 @@ export default function Chat({ rentalId, currentUserId }: { rentalId: string; cu
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Write a message…"
-          className="flex-1 rounded-xl bg-gray-100 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+          className="flex-1 rounded-xl bg-gray-100 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
         />
         <button
           type="submit"
           disabled={isSending || !draft.trim()}
-          className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
+          className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
         >
           Send
         </button>

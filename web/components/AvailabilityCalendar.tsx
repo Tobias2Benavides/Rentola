@@ -135,22 +135,22 @@ export default function AvailabilityCalendar({ blockedDates, startDate, endDate,
 
           let bandClasses = 'relative flex h-8 items-center justify-center '
           if (blocked) {
-            bandClasses += `bg-green-100 ${prevBlocked ? '' : 'rounded-l-full'} ${nextBlocked ? '' : 'rounded-r-full'}`
+            bandClasses += `bg-emerald-100 ${prevBlocked ? '' : 'rounded-l-full'} ${nextBlocked ? '' : 'rounded-r-full'}`
           } else if (inSelectedRange) {
-            bandClasses += `bg-gray-100 ${isStart ? 'rounded-l-full' : ''} ${isEnd ? 'rounded-r-full' : ''}`
+            bandClasses += `bg-emerald-50 ${isStart ? 'rounded-l-full' : ''} ${isEnd ? 'rounded-r-full' : ''}`
           }
 
           let dayClasses = 'flex h-8 w-8 items-center justify-center rounded-full text-sm '
           if (blocked) {
-            dayClasses += 'text-green-700 cursor-not-allowed'
+            dayClasses += 'text-emerald-700 cursor-not-allowed'
           } else if (past) {
             dayClasses += 'text-gray-300 cursor-not-allowed'
           } else if (isEndpoint) {
-            dayClasses += 'bg-gray-900 font-semibold text-white'
+            dayClasses += 'bg-emerald-700 font-semibold text-white'
           } else if (inSelectedRange) {
-            dayClasses += 'text-gray-900'
+            dayClasses += 'text-emerald-900'
           } else {
-            dayClasses += 'text-gray-700 hover:bg-gray-100'
+            dayClasses += 'text-gray-700 hover:bg-emerald-50'
           }
 
           return (
@@ -170,10 +170,10 @@ export default function AvailabilityCalendar({ blockedDates, startDate, endDate,
 
       <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
         <span className="flex items-center gap-1.5">
-          <span className="h-3 w-3 rounded-full bg-green-100" /> Booked
+          <span className="h-3 w-3 rounded-full bg-emerald-100" /> Booked
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-3 w-3 rounded-full bg-gray-900" /> Selected
+          <span className="h-3 w-3 rounded-full bg-emerald-700" /> Selected
         </span>
       </div>
     </div>

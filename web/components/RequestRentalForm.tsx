@@ -74,7 +74,7 @@ export default function RequestRentalForm({
           onChange={(e) => setMessage(e.target.value)}
           rows={3}
           placeholder="Anything the owner should know?"
-          className="w-full resize-none rounded-xl bg-gray-100 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full resize-none rounded-xl bg-gray-100 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
         />
       </div>
 
@@ -92,7 +92,7 @@ export default function RequestRentalForm({
       <button
         type="submit"
         disabled={isDisabled}
-        className="w-full rounded-xl bg-gray-900 py-3.5 font-semibold text-white transition-opacity disabled:opacity-30"
+        className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-3.5 font-semibold text-white transition disabled:opacity-30"
       >
         {isLoading ? 'Sending…' : 'Send Request'}
       </button>

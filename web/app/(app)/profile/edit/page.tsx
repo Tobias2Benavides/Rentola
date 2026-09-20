@@ -117,7 +117,7 @@ export default function EditProfilePage() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full bg-gray-200 transition-opacity hover:opacity-80"
+            className="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full bg-gray-200 transition hover:opacity-80"
           >
             {avatarPreview ? (
               <Image src={avatarPreview} alt="Avatar" fill className="object-cover" />
@@ -132,7 +132,7 @@ export default function EditProfilePage() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="text-sm font-medium text-gray-900 underline underline-offset-4"
+            className="text-sm font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4"
           >
             {avatarPreview ? 'Change photo' : 'Add photo'}
           </button>
@@ -155,7 +155,7 @@ export default function EditProfilePage() {
             placeholder="Your name"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
           />
         </div>
 
@@ -169,7 +169,7 @@ export default function EditProfilePage() {
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             rows={4}
-            className="w-full resize-none rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full resize-none rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
           />
         </div>
 
@@ -178,7 +178,7 @@ export default function EditProfilePage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full rounded-xl bg-gray-900 py-4 font-semibold text-white transition-opacity disabled:opacity-30"
+          className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-4 font-semibold text-white transition disabled:opacity-30"
         >
           {isLoading ? 'Saving…' : 'Save Changes'}
         </button>

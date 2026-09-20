@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
             </div>
             <Link
               href="/sign-in"
-              className="block text-center text-sm font-medium text-gray-900 underline underline-offset-4"
+              className="block text-center text-sm font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4"
             >
               Back to sign in
             </Link>
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
-                className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900"
+                className="w-full rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
 
@@ -74,14 +74,14 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={!email || isLoading}
-              className="w-full rounded-xl bg-gray-900 py-4 font-semibold text-white transition-opacity disabled:opacity-30"
+              className="w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-4 font-semibold text-white transition disabled:opacity-30"
             >
               {isLoading ? 'Sending…' : 'Send Reset Link'}
             </button>
 
             <Link
               href="/sign-in"
-              className="block text-center text-sm font-medium text-gray-900 underline underline-offset-4"
+              className="block text-center text-sm font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4"
             >
               Back to sign in
             </Link>

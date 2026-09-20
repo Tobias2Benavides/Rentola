@@ -33,7 +33,7 @@ export default async function ProfilePage() {
         <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
         <Link
           href="/profile/edit"
-          className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2 text-sm font-semibold text-white"
         >
           Edit
         </Link>
