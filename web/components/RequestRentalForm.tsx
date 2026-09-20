@@ -3,9 +3,26 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { formatPrice, rentalDays } from '@/lib/format'
+import { formatDate, formatPrice, rentalDays } from '@/lib/format'
 
-export default function RequestRentalForm({ listingId, pricePerDay }: { listingId: string; pricePerDay: number }) {
+interface BlockedRange {
+  start_date: string
+  end_date: string
+}
+
+function overlaps(startDate: string, endDate: string, blocked: BlockedRange): boolean {
+  return startDate <= blocked.end_date && blocked.start_date <= endDate
+}
+
+export default function RequestRentalForm({
+  listingId,
+  pricePerDay,
+  blockedDates,
+}: {
+  listingId: string
+  pricePerDay: number
+  blockedDates: BlockedRange[]
+}) {
   const router = useRouter()
   const today = new Date().toISOString().slice(0, 10)
 
@@ -17,7 +34,9 @@ export default function RequestRentalForm({ listingId, pricePerDay }: { listingI
 
   const days = startDate && endDate ? rentalDays(startDate, endDate) : 0
   const total = days > 0 ? days * pricePerDay : 0
-  const isDisabled = !startDate || !endDate || days <= 0 || isLoading
+  const conflict =
+    startDate && endDate ? blockedDates.find((b) => overlaps(startDate, endDate, b)) : undefined
+  const isDisabled = !startDate || !endDate || days <= 0 || isLoading || Boolean(conflict)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -44,6 +63,17 @@ export default function RequestRentalForm({ listingId, pricePerDay }: { listingI
     <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5">
       <p className="font-semibold text-gray-900">Request to rent</p>
 
+      {blockedDates.length > 0 && (
+        <div className="space-y-1 rounded-xl bg-gray-50 p-3 text-xs text-gray-500">
+          <p className="font-semibold uppercase tracking-wide text-gray-400">Already booked</p>
+          {blockedDates.map((b) => (
+            <p key={`${b.start_date}-${b.end_date}`}>
+              {formatDate(b.start_date)} – {formatDate(b.end_date)}
+            </p>
+          ))}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
           <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">Start</label>
@@ -66,6 +96,13 @@ export default function RequestRentalForm({ listingId, pricePerDay }: { listingI
           />
         </div>
       </div>
+
+      {conflict && (
+        <p className="text-sm text-red-500">
+          Those dates overlap an existing booking ({formatDate(conflict.start_date)} – {formatDate(conflict.end_date)}).
+          Pick a different range.
+        </p>
+      )}
 
       <div className="space-y-1.5">
         <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">Message (optional)</label>

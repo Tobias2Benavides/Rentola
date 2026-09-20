@@ -27,6 +27,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
   const photoUrls = listing.photos.map((path) => supabase.storage.from('listing-photos').getPublicUrl(path).data.publicUrl)
   const isOwner = listing.owner_id === user!.id
 
+  const { data: blockedDatesData } = await supabase.rpc('get_listing_blocked_dates', { p_listing_id: listing.id })
+  const blockedDates = (blockedDatesData ?? []) as { start_date: string; end_date: string }[]
+
   return (
     <div className="space-y-6">
       <Link href="/browse" className="text-sm font-medium text-gray-500 hover:text-gray-900">
@@ -93,7 +96,11 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
               </Link>
             </div>
           ) : (
-            <RequestRentalForm listingId={listing.id} pricePerDay={listing.price_per_day} />
+            <RequestRentalForm
+              listingId={listing.id}
+              pricePerDay={listing.price_per_day}
+              blockedDates={blockedDates}
+            />
           )}
         </div>
       </div>
