@@ -6,7 +6,7 @@ export default function HomePage() {
       {/* Header */}
       <header className="border-b border-gray-100 px-6 py-5">
         <div className="mx-auto flex max-w-4xl items-center justify-between">
-          <span className="text-xl font-bold tracking-tight text-gray-900">Rentify</span>
+          <span className="text-xl font-bold tracking-tight text-emerald-700">Rentify</span>
           <div className="flex items-center gap-3">
             <Link
               href="/sign-in"
