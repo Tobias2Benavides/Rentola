@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStripe } from '@/lib/stripe'
+import { formatPrice } from '@/lib/format'
 
 type AdminClient = ReturnType<typeof createAdminClient>
 
@@ -25,7 +26,7 @@ async function handleV1Event(event: Stripe.Event, admin: AdminClient) {
               : paymentIntent.payment_method?.id ?? null
         }
 
-        await admin
+        const { data: rental } = await admin
           .from('rentals')
           .update({
             payment_status: 'paid',
@@ -34,6 +35,28 @@ async function handleV1Event(event: Stripe.Event, admin: AdminClient) {
             stripe_payment_method_id: paymentMethodId,
           })
           .eq('id', rentalId)
+          .select('owner_id, renter_id, listing_id, total_price')
+          .single()
+
+        if (rental) {
+          const { data: listing } = await admin.from('listings').select('title').eq('id', rental.listing_id).single()
+          await admin.from('notifications').insert([
+            {
+              user_id: rental.owner_id,
+              type: 'payment_received',
+              title: 'You got paid',
+              body: `You were paid ${formatPrice(rental.total_price)} for "${listing?.title ?? 'your listing'}".`,
+              link: `/rentals/${rentalId}`,
+            },
+            {
+              user_id: rental.renter_id,
+              type: 'payment_confirmed',
+              title: 'Payment confirmed',
+              body: `Your payment for "${listing?.title ?? 'this rental'}" went through — you're all set to pick it up.`,
+              link: `/rentals/${rentalId}`,
+            },
+          ])
+        }
       }
       break
     }

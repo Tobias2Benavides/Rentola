@@ -3,11 +3,13 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import NotificationBell from '@/components/NotificationBell'
 
 const links = [
   { href: '/browse', label: 'Browse' },
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/listings', label: 'My Listings' },
+  { href: '/earnings', label: 'Earnings' },
   { href: '/profile', label: 'Profile' },
 ]
 
@@ -46,6 +48,8 @@ export default function NavBar() {
               </Link>
             )
           })}
+
+          <NotificationBell />
 
           <button
             onClick={handleSignOut}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStripe, platformFeeFor } from '@/lib/stripe'
+import { formatPrice } from '@/lib/format'
 import type { Listing, Profile, Rental } from '@/lib/types'
 
 // Confirms a rental's return (via the same RPC the client used to call
@@ -63,6 +64,23 @@ export async function POST(request: NextRequest) {
             late_fee_payment_intent_id: paymentIntent.id,
           })
           .eq('id', rental.id)
+
+        await admin.from('notifications').insert([
+          {
+            user_id: rental.renter_id,
+            type: 'late_fee_charged',
+            title: 'Late-return fee charged',
+            body: `You were charged ${formatPrice(lateFeeAmount)} for returning ${lateDays} day${lateDays === 1 ? '' : 's'} late.`,
+            link: `/rentals/${rental.id}`,
+          },
+          {
+            user_id: rental.owner_id,
+            type: 'late_fee_received',
+            title: 'You received a late-return fee',
+            body: `An extra ${formatPrice(lateFeeAmount)} was charged and sent your way for a late return.`,
+            link: `/rentals/${rental.id}`,
+          },
+        ])
       } catch {
         // Off-session charge failed (card declined, requires authentication,
         // etc.) — record it as failed rather than silently losing the fee.
