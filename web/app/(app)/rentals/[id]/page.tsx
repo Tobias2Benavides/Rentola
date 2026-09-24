@@ -3,8 +3,12 @@ import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { formatDate, formatPrice } from '@/lib/format'
 import RentalActions from '@/components/RentalActions'
+import ReviewForm from '@/components/ReviewForm'
 import Chat from '@/components/Chat'
-import type { Listing, Profile, Rental, RentalStatus } from '@/lib/types'
+import type { Listing, Profile, Rental, RentalStatus, Review } from '@/lib/types'
+
+const STAR_PATH =
+  'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'
 
 const STATUS_STYLES: Record<RentalStatus, string> = {
   pending: 'bg-yellow-100 text-yellow-800',
@@ -38,6 +42,17 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
   ])
 
   const otherParty = isOwner ? renter : owner
+
+  let myReview: Review | null = null
+  if (rental.status === 'returned') {
+    const { data } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('rental_id', rental.id)
+      .eq('reviewer_id', user!.id)
+      .maybeSingle<Review>()
+    myReview = data
+  }
 
   return (
     <div className="space-y-6">
@@ -114,6 +129,33 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
           />
         </div>
       </div>
+
+      {rental.status === 'returned' && otherParty && (
+        myReview ? (
+          <div className="space-y-2 rounded-2xl border border-gray-200 bg-white p-4">
+            <p className="font-semibold text-gray-900">You rated {otherParty.display_name ?? 'Rentify user'}</p>
+            <div className="flex gap-0.5">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <svg
+                  key={star}
+                  className={`h-5 w-5 ${star <= myReview!.rating ? 'text-yellow-400' : 'text-gray-200'}`}
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d={STAR_PATH} />
+                </svg>
+              ))}
+            </div>
+            {myReview.comment && <p className="text-sm text-gray-600">&ldquo;{myReview.comment}&rdquo;</p>}
+          </div>
+        ) : (
+          <ReviewForm
+            rentalId={rental.id}
+            revieweeId={otherParty.id}
+            revieweeName={otherParty.display_name ?? 'Rentify user'}
+          />
+        )
+      )}
 
       <Chat rentalId={rental.id} currentUserId={user!.id} />
     </div>

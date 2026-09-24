@@ -69,7 +69,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-900">{owner?.display_name ?? 'Rentify user'}</p>
-              <p className="text-xs text-gray-400">Item owner</p>
+              <p className="text-xs text-gray-400">
+                Item owner{owner && owner.average_rating > 0 ? ` · ★ ${owner.average_rating.toFixed(1)}` : ''}
+              </p>
             </div>
           </div>
 
