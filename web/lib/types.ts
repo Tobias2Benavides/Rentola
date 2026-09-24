@@ -25,6 +25,16 @@ export interface Listing {
   created_at: string
 }
 
+export interface ItemRequest {
+  id: string
+  requester_id: string
+  title: string
+  description: string | null
+  category: string
+  city: string
+  created_at: string
+}
+
 export interface Rental {
   id: string
   listing_id: string
@@ -51,6 +61,16 @@ export interface Message {
   rental_id: string
   sender_id: string
   body: string
+  created_at: string
+}
+
+export interface Review {
+  id: string
+  rental_id: string
+  reviewer_id: string
+  reviewee_id: string
+  rating: number
+  comment: string | null
   created_at: string
 }
 
