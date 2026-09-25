@@ -51,7 +51,7 @@ export default function ReviewForm({ rentalId, revieweeId, revieweeName }: Revie
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-2xl border border-gray-200 bg-white p-4">
+    <form onSubmit={handleSubmit} className="space-y-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5">
       <p className="font-semibold text-gray-900">Rate {revieweeName}</p>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((star) => (

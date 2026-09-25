@@ -56,7 +56,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
 
           {listing.description && <p className="whitespace-pre-line text-gray-700">{listing.description}</p>}
 
-          <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4">
+          <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5">
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-200">
               {owner?.avatar_url && (
                 <Image
@@ -88,7 +88,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
 
         <div>
           {isOwner ? (
-            <div className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5">
+            <div className="space-y-3 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5">
               <p className="text-sm text-gray-500">This is your listing.</p>
               <Link
                 href={`/listings/${listing.id}/edit`}

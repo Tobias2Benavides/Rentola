@@ -121,7 +121,7 @@ export default async function ProfilePage() {
       </div>
 
       {/* Reviews */}
-      <div className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="space-y-3 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5">
         <p className="font-semibold text-gray-900">Reviews</p>
         {!reviews || reviews.length === 0 ? (
           <p className="text-sm text-gray-400">No reviews yet.</p>
@@ -154,7 +154,7 @@ export default async function ProfilePage() {
       </div>
 
       {/* Payouts */}
-      <div className="space-y-2 rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="space-y-2 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5">
         <p className="font-semibold text-gray-900">Payouts</p>
         <p className="text-sm text-gray-500">
           {profile?.stripe_onboarding_complete

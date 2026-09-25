@@ -41,7 +41,7 @@ export default async function RequestsPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {requests.map((request) => (
-            <div key={request.id} className="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-4">
+            <div key={request.id} className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">{request.category}</span>
                 <p className="font-semibold text-gray-900">{request.title}</p>

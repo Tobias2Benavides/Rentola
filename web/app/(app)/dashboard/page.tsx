@@ -90,7 +90,7 @@ function RentalGroup({
               <Link
                 key={rental.id}
                 href={`/rentals/${rental.id}`}
-                className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3.5 hover:shadow-sm"
+                className="flex items-center justify-between rounded-2xl bg-white px-4 py-3.5 shadow-sm ring-1 ring-gray-900/5 transition-shadow hover:shadow-md"
               >
                 <div>
                   <div className="flex items-center gap-2">
@@ -162,12 +162,12 @@ export default async function DashboardPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
           <span className="font-semibold text-gray-900">Renting</span>
           <p className="mt-1 text-2xl font-bold text-gray-900">{activeRenting}</p>
           <p className="text-sm text-gray-400">Active rentals</p>
         </div>
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
           <span className="font-semibold text-gray-900">Lending</span>
           <p className="mt-1 text-2xl font-bold text-gray-900">{activeLending}</p>
           <p className="text-sm text-gray-400">Active listings out</p>

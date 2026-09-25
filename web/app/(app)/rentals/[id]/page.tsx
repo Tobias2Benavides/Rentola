@@ -60,7 +60,7 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
         ← Back to Dashboard
       </Link>
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-6">
+      <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
         <div className="flex items-start justify-between">
           <div>
             <span className={`inline-block rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[rental.status]}`}>
@@ -132,7 +132,7 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
 
       {rental.status === 'returned' && otherParty && (
         myReview ? (
-          <div className="space-y-2 rounded-2xl border border-gray-200 bg-white p-4">
+          <div className="space-y-2 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5">
             <p className="font-semibold text-gray-900">You rated {otherParty.display_name ?? 'Rentify user'}</p>
             <div className="flex gap-0.5">
               {[1, 2, 3, 4, 5].map((star) => (

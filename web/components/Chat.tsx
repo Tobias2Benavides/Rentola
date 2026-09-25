@@ -52,7 +52,7 @@ export default function Chat({ rentalId, currentUserId }: { rentalId: string; cu
   }
 
   return (
-    <div className="flex flex-col rounded-2xl border border-gray-200 bg-white">
+    <div className="flex flex-col rounded-2xl bg-white shadow-sm ring-1 ring-gray-900/5">
       <div className="border-b border-gray-100 px-4 py-3">
         <p className="font-semibold text-gray-900">Messages</p>
       </div>

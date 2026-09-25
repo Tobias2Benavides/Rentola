@@ -54,7 +54,7 @@ export default function RequestRentalForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5">
       <p className="font-semibold text-gray-900">Request to rent</p>
 
       <AvailabilityCalendar

@@ -39,19 +39,19 @@ export default async function EarningsPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
           <p className="text-sm text-gray-500">Net earnings</p>
           <p className="mt-1 text-2xl font-bold text-emerald-700">{formatPrice(netEarnings)}</p>
           <p className="mt-1 text-xs text-gray-400">After the platform fee — this is what lands in your account</p>
         </div>
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
           <p className="text-sm text-gray-500">Gross collected</p>
           <p className="mt-1 text-2xl font-bold text-gray-900">{formatPrice(grossEarnings)}</p>
           <p className="mt-1 text-xs text-gray-400">
             {formatPrice(rentalIncome)} rentals + {formatPrice(lateFeeIncome)} late fees
           </p>
         </div>
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
           <p className="text-sm text-gray-500">Platform fee</p>
           <p className="mt-1 text-2xl font-bold text-gray-900">{formatPrice(platformFee)}</p>
           <p className="mt-1 text-xs text-gray-400">{PLATFORM_FEE_BPS / 100}% of what you collect</p>
@@ -73,7 +73,7 @@ export default async function EarningsPage() {
                 <Link
                   key={rental.id}
                   href={`/rentals/${rental.id}`}
-                  className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3.5 hover:shadow-sm"
+                  className="flex items-center justify-between rounded-2xl bg-white px-4 py-3.5 shadow-sm ring-1 ring-gray-900/5 transition-shadow hover:shadow-md"
                 >
                   <div>
                     <p className="font-medium text-gray-900">{listing?.title ?? 'Listing'}</p>

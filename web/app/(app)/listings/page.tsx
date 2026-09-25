@@ -42,7 +42,7 @@ export default async function MyListingsPage() {
               : null
 
             return (
-              <div key={listing.id} className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-4">
+              <div key={listing.id} className="flex gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5">
                 <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                   {thumbUrl && <Image src={thumbUrl} alt="" fill className="object-cover" />}
                 </div>
