@@ -2,7 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import Image from 'next/image'
 import ConnectStripeButton from '@/components/ConnectStripeButton'
-import type { Profile, Review } from '@/lib/types'
+import BlockUserButton from '@/components/BlockUserButton'
+import type { Block, Profile, Review } from '@/lib/types'
 
 const STAR_PATH =
   'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'
@@ -29,6 +30,19 @@ export default async function ProfilePage() {
     ? await supabase.from('profiles').select('id, display_name').in('id', reviewerIds).returns<Pick<Profile, 'id' | 'display_name'>[]>()
     : { data: [] as Pick<Profile, 'id' | 'display_name'>[] }
   const reviewerNameById = new Map((reviewers ?? []).map((p) => [p.id, p.display_name ?? 'Rentify user']))
+
+  const { data: blocks } = await supabase
+    .from('blocks')
+    .select('*')
+    .eq('blocker_id', user!.id)
+    .order('created_at', { ascending: false })
+    .returns<Block[]>()
+
+  const blockedIds = (blocks ?? []).map((b) => b.blocked_id)
+  const { data: blockedProfiles } = blockedIds.length
+    ? await supabase.from('profiles').select('id, display_name').in('id', blockedIds).returns<Pick<Profile, 'id' | 'display_name'>[]>()
+    : { data: [] as Pick<Profile, 'id' | 'display_name'>[] }
+  const blockedNameById = new Map((blockedProfiles ?? []).map((p) => [p.id, p.display_name ?? 'Rentify user']))
 
   const displayName = profile?.display_name ?? ''
   const bio = profile?.bio ?? ''
@@ -163,6 +177,25 @@ export default async function ProfilePage() {
         </p>
         <ConnectStripeButton isConnected={Boolean(profile?.stripe_onboarding_complete)} />
       </div>
+
+      {/* Blocked users */}
+      {blocks && blocks.length > 0 && (
+        <div className="space-y-3 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5">
+          <p className="font-semibold text-gray-900">Blocked users</p>
+          <div className="space-y-2">
+            {blocks.map((block) => (
+              <div key={block.id} className="flex items-center justify-between">
+                <p className="text-sm text-gray-700">{blockedNameById.get(block.blocked_id) ?? 'Rentify user'}</p>
+                <BlockUserButton
+                  userId={block.blocked_id}
+                  userName={blockedNameById.get(block.blocked_id) ?? 'this user'}
+                  initialIsBlocked={true}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

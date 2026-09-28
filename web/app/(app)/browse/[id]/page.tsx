@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { formatPrice } from '@/lib/format'
 import RequestRentalForm from '@/components/RequestRentalForm'
+import ReportListingButton from '@/components/ReportListingButton'
+import BlockUserButton from '@/components/BlockUserButton'
 import type { Listing, Profile } from '@/lib/types'
 
 export default async function ListingDetailPage({ params }: { params: { id: string } }) {
@@ -29,6 +31,17 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
 
   const { data: blockedDatesData } = await supabase.rpc('get_listing_blocked_dates', { p_listing_id: listing.id })
   const blockedDates = (blockedDatesData ?? []) as { start_date: string; end_date: string }[]
+
+  let isOwnerBlocked = false
+  if (!isOwner) {
+    const { data: existingBlock } = await supabase
+      .from('blocks')
+      .select('id')
+      .eq('blocker_id', user!.id)
+      .eq('blocked_id', listing.owner_id)
+      .maybeSingle()
+    isOwnerBlocked = existingBlock !== null
+  }
 
   return (
     <div className="space-y-6">
@@ -74,6 +87,18 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
               </p>
             </div>
           </div>
+
+          {!isOwner && (
+            <div className="flex items-center gap-3">
+              <BlockUserButton
+                userId={listing.owner_id}
+                userName={owner?.display_name ?? 'this user'}
+                initialIsBlocked={isOwnerBlocked}
+              />
+              <span className="text-gray-300">·</span>
+              <ReportListingButton listingId={listing.id} />
+            </div>
+          )}
 
           <p className="text-lg font-semibold text-gray-900">
             {formatPrice(listing.price_per_day)}

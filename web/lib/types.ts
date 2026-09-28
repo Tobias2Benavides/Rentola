@@ -74,6 +74,25 @@ export interface Review {
   created_at: string
 }
 
+export type ReportReason = 'inappropriate' | 'prohibited_item' | 'spam' | 'scam' | 'other'
+
+export interface Report {
+  id: string
+  reporter_id: string
+  listing_id: string
+  reason: ReportReason
+  details: string | null
+  status: 'open' | 'resolved' | 'dismissed'
+  created_at: string
+}
+
+export interface Block {
+  id: string
+  blocker_id: string
+  blocked_id: string
+  created_at: string
+}
+
 export interface Notification {
   id: string
   user_id: string

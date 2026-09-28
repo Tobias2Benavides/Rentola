@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { formatDate, formatPrice } from '@/lib/format'
 import RentalActions from '@/components/RentalActions'
 import ReviewForm from '@/components/ReviewForm'
+import BlockUserButton from '@/components/BlockUserButton'
 import Chat from '@/components/Chat'
 import type { Listing, Profile, Rental, RentalStatus, Review } from '@/lib/types'
 
@@ -43,6 +44,17 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
 
   const otherParty = isOwner ? renter : owner
 
+  let isOtherPartyBlocked = false
+  if (otherParty) {
+    const { data: existingBlock } = await supabase
+      .from('blocks')
+      .select('id')
+      .eq('blocker_id', user!.id)
+      .eq('blocked_id', otherParty.id)
+      .maybeSingle()
+    isOtherPartyBlocked = existingBlock !== null
+  }
+
   let myReview: Review | null = null
   if (rental.status === 'returned') {
     const { data } = await supabase
@@ -79,6 +91,15 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
             <p className="mt-1 text-sm text-gray-500">
               {isOwner ? 'Renter' : 'Owner'}: {otherParty?.display_name ?? 'Rentify user'}
             </p>
+            {otherParty && (
+              <div className="mt-1">
+                <BlockUserButton
+                  userId={otherParty.id}
+                  userName={otherParty.display_name ?? 'this user'}
+                  initialIsBlocked={isOtherPartyBlocked}
+                />
+              </div>
+            )}
           </div>
           <div className="text-right">
             <p className="text-lg font-bold text-gray-900">{formatPrice(rental.total_price)}</p>
