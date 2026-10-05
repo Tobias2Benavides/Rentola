@@ -15,7 +15,8 @@ export function getStripe(): Stripe {
 }
 
 // Platform fee taken out of every rental payment, in basis points (1000 = 10%).
-export const PLATFORM_FEE_BPS = 1000
+// Set to 0 for launch -- no commission yet, revisit once there's real usage.
+export const PLATFORM_FEE_BPS = 0
 
 export function platformFeeFor(totalPriceCents: number): number {
   return Math.round((totalPriceCents * PLATFORM_FEE_BPS) / 10000)
