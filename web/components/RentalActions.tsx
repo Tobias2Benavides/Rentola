@@ -11,9 +11,19 @@ interface RentalActionsProps {
   paymentStatus: PaymentStatus
   isOwner: boolean
   isRenter: boolean
+  ownerStripeReady: boolean
+  paymentInstructions: string | null
 }
 
-export default function RentalActions({ rentalId, status, paymentStatus, isOwner, isRenter }: RentalActionsProps) {
+export default function RentalActions({
+  rentalId,
+  status,
+  paymentStatus,
+  isOwner,
+  isRenter,
+  ownerStripeReady,
+  paymentInstructions,
+}: RentalActionsProps) {
   const router = useRouter()
   const [pending, setPending] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -88,7 +98,9 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
     )
   }
 
-  if (isRenter && status === 'approved' && paymentStatus === 'unpaid') {
+  const needsPayment = status === 'approved' && paymentStatus === 'unpaid'
+
+  if (isRenter && needsPayment && ownerStripeReady) {
     buttons.push(
       <button
         key="pay"
@@ -97,6 +109,19 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
         className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
       >
         {pending === 'pay' ? 'Redirecting…' : 'Pay Now'}
+      </button>
+    )
+  }
+
+  if (isOwner && needsPayment && !ownerStripeReady) {
+    buttons.push(
+      <button
+        key="confirm-manual-payment"
+        onClick={() => callRpc('confirm_manual_payment')}
+        disabled={pending !== null}
+        className="rounded-xl bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-30"
+      >
+        {pending === 'confirm_manual_payment' ? 'Working…' : 'Mark as Paid'}
       </button>
     )
   }
@@ -140,10 +165,27 @@ export default function RentalActions({ rentalId, status, paymentStatus, isOwner
     )
   }
 
-  if (buttons.length === 0) return null
+  const showPaymentInstructions = isRenter && needsPayment && !ownerStripeReady
+
+  if (buttons.length === 0 && !showPaymentInstructions) return null
 
   return (
     <div className="space-y-2">
+      {showPaymentInstructions && (
+        <div className="rounded-xl bg-yellow-50 p-3 text-sm text-yellow-800">
+          {paymentInstructions ? (
+            <>
+              <p className="font-semibold">Pay the owner directly:</p>
+              <p className="mt-1 whitespace-pre-line">{paymentInstructions}</p>
+              <p className="mt-2 text-xs text-yellow-700">
+                They&apos;ll mark this rental as paid once it arrives.
+              </p>
+            </>
+          ) : (
+            <p>The owner hasn&apos;t added payment instructions yet — message them to arrange payment.</p>
+          )}
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">{buttons}</div>
       {error && <p className="text-sm text-red-500">{error}</p>}
     </div>

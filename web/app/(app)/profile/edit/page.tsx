@@ -12,6 +12,7 @@ export default function EditProfilePage() {
   const [userId, setUserId] = useState<string | null>(null)
   const [displayName, setDisplayName] = useState('')
   const [bio, setBio] = useState('')
+  const [paymentInstructions, setPaymentInstructions] = useState('')
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -35,6 +36,7 @@ export default function EditProfilePage() {
       if (profile) {
         setDisplayName(profile.display_name ?? '')
         setBio(profile.bio ?? '')
+        setPaymentInstructions(profile.payment_instructions ?? '')
         if (profile.avatar_url) {
           const { data } = supabase.storage.from('avatars').getPublicUrl(profile.avatar_url)
           setAvatarPreview(data.publicUrl)
@@ -80,6 +82,7 @@ export default function EditProfilePage() {
       .update({
         display_name: displayName.trim() || null,
         bio: bio.trim() || null,
+        payment_instructions: paymentInstructions.trim() || null,
         ...(avatarPath ? { avatar_url: avatarPath } : {}),
         updated_at: new Date().toISOString(),
       })
@@ -171,6 +174,23 @@ export default function EditProfilePage() {
             rows={4}
             className="w-full resize-none rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
           />
+        </div>
+
+        {/* Payment instructions */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            Payment instructions
+          </label>
+          <textarea
+            placeholder="e.g. a Tikkie link, or your IBAN -- shown to renters until you connect Stripe payouts"
+            value={paymentInstructions}
+            onChange={(e) => setPaymentInstructions(e.target.value)}
+            rows={3}
+            className="w-full resize-none rounded-xl bg-gray-100 px-4 py-3.5 text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-emerald-600"
+          />
+          <p className="text-xs text-gray-400">
+            Only used while you haven&apos;t connected Stripe payouts yet. Once you do, renters pay through Stripe instead.
+          </p>
         </div>
 
         {error && <p className="text-sm text-red-500">{error}</p>}

@@ -9,6 +9,7 @@ export interface Profile {
   average_rating: number
   stripe_account_id: string | null
   stripe_onboarding_complete: boolean
+  payment_instructions: string | null
 }
 
 export interface Listing {

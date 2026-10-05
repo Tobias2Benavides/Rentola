@@ -130,11 +130,11 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
           </p>
         )}
 
-        {isOwner && !owner?.stripe_onboarding_complete && rental.status === 'pending' && (
+        {isOwner && !owner?.stripe_onboarding_complete && !owner?.payment_instructions && rental.status === 'pending' && (
           <p className="mt-4 rounded-xl bg-yellow-50 p-3 text-sm text-yellow-800">
             You need to{' '}
             <Link href="/profile" className="font-semibold underline">
-              connect a Stripe payout account
+              connect a Stripe payout account, or add payment instructions to your profile
             </Link>{' '}
             before you can approve this request.
           </p>
@@ -147,6 +147,8 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
             paymentStatus={rental.payment_status}
             isOwner={isOwner}
             isRenter={isRenter}
+            ownerStripeReady={Boolean(owner?.stripe_onboarding_complete)}
+            paymentInstructions={owner?.payment_instructions ?? null}
           />
         </div>
       </div>
