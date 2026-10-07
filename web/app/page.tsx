@@ -86,6 +86,14 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+
+      <footer className="border-t border-gray-100 px-6 py-6">
+        <div className="mx-auto flex max-w-4xl items-center justify-center gap-4 text-sm text-gray-400">
+          <Link href="/terms" className="hover:text-gray-600">Terms</Link>
+          <span>·</span>
+          <Link href="/privacy" className="hover:text-gray-600">Privacy</Link>
+        </div>
+      </footer>
     </div>
   )
 }

@@ -125,6 +125,18 @@ export default function SignUpPage() {
           </button>
         </form>
 
+        <p className="mt-4 text-center text-xs text-gray-400">
+          By creating an account, you agree to our{' '}
+          <Link href="/terms" className="underline underline-offset-4 hover:text-gray-600">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link href="/privacy" className="underline underline-offset-4 hover:text-gray-600">
+            Privacy Policy
+          </Link>
+          .
+        </p>
+
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
           <Link href="/sign-in" className="font-medium text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
