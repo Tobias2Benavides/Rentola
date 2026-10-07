@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
-import { CATEGORIES } from '@/lib/categories'
 import { formatPrice } from '@/lib/format'
+import BrowseSearchForm from '@/components/BrowseSearchForm'
 import type { Listing, Profile } from '@/lib/types'
 
 const STAR_PATH =
@@ -36,34 +36,7 @@ export default async function BrowsePage({
         <p className="mt-1 text-gray-500">Find items to rent near you</p>
       </div>
 
-      <form className="flex items-stretch overflow-hidden rounded-full border border-gray-200 bg-white shadow-sm transition-shadow focus-within:shadow-md hover:shadow-md">
-        <input
-          type="text"
-          name="q"
-          placeholder="Search listings…"
-          defaultValue={q}
-          className="min-w-0 flex-1 bg-transparent px-6 py-3.5 text-sm text-gray-900 placeholder-gray-400 outline-none"
-        />
-        <div className="my-2 w-px shrink-0 bg-gray-200" />
-        <select
-          name="category"
-          defaultValue={category}
-          className="w-36 shrink-0 truncate bg-transparent px-4 py-3.5 text-sm text-gray-700 outline-none sm:w-52"
-        >
-          <option value="">All categories</option>
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-        <button
-          type="submit"
-          className="m-1.5 shrink-0 rounded-full bg-emerald-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800"
-        >
-          Search
-        </button>
-      </form>
+      <BrowseSearchForm initialQuery={q} initialCategory={category} />
 
       {!listings || listings.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-white py-24">
