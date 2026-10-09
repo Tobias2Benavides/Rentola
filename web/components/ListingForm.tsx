@@ -3,9 +3,11 @@
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES } from '@/lib/categories'
 import { CITIES } from '@/lib/cities'
+import { matchProhibitedKeyword } from '@/lib/prohibitedKeywords'
 import type { Listing } from '@/lib/types'
 
 const MAX_PHOTOS = 5
@@ -38,9 +40,13 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isDraggingOver, setIsDraggingOver] = useState(false)
+  const [ownsItem, setOwnsItem] = useState(false)
+  const [isAccurate, setIsAccurate] = useState(false)
+  const [notProhibited, setNotProhibited] = useState(false)
 
   const totalPhotos = existingPhotos.length + newFiles.length
-  const isDisabled = !title || !city || !pricePerDay || totalPhotos === 0 || isLoading
+  const isDisabled =
+    !title || !city || !pricePerDay || totalPhotos === 0 || !ownsItem || !isAccurate || !notProhibited || isLoading
 
   function addFiles(files: File[]) {
     const room = MAX_PHOTOS - totalPhotos
@@ -104,6 +110,12 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
 
     const photos = [...existingPhotos.map((p) => p.path), ...uploadedPaths]
 
+    // A keyword match doesn't block publishing -- it flags the listing
+    // for admin review and hides it from Browse until cleared (RLS in
+    // 016_listing_review_flag.sql is the actual enforcement; this is
+    // just what sets the flag).
+    const matchedKeyword = matchProhibitedKeyword(`${title} ${description}`)
+
     const payload = {
       title: title.trim(),
       description: description.trim() || null,
@@ -112,6 +124,8 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
       price_per_week: pricePerWeek ? parseFloat(pricePerWeek) : null,
       city: city.trim(),
       photos,
+      needs_review: matchedKeyword !== null,
+      flag_reason: matchedKeyword ? `Matched keyword: "${matchedKeyword}"` : null,
     }
 
     if (mode === 'create') {
@@ -285,6 +299,43 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
             <option key={c} value={c} />
           ))}
         </datalist>
+      </div>
+
+      {/* Required attestations */}
+      <div className="space-y-2.5 rounded-xl bg-gray-50 p-4">
+        <label className="flex items-start gap-2.5 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={ownsItem}
+            onChange={(e) => setOwnsItem(e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-emerald-700 focus:ring-emerald-600"
+          />
+          <span>I own this item or am allowed to rent it out.</span>
+        </label>
+        <label className="flex items-start gap-2.5 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={isAccurate}
+            onChange={(e) => setIsAccurate(e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-emerald-700 focus:ring-emerald-600"
+          />
+          <span>This item is safe and accurately described.</span>
+        </label>
+        <label className="flex items-start gap-2.5 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={notProhibited}
+            onChange={(e) => setNotProhibited(e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-emerald-700 focus:ring-emerald-600"
+          />
+          <span>
+            This item is not on the{' '}
+            <Link href="/prohibited" target="_blank" className="underline underline-offset-4 hover:text-gray-900">
+              prohibited items list
+            </Link>
+            .
+          </span>
+        </label>
       </div>
 
       {error && <p className="text-sm text-red-500">{error}</p>}

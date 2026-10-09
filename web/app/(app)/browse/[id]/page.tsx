@@ -67,6 +67,16 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             <p className="mt-1 text-gray-500">{listing.city}</p>
           </div>
 
+          <p className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
+            Offered by a private individual. Rentify is not a party to this rental.
+          </p>
+
+          {isOwner && listing.needs_review && (
+            <p className="rounded-xl bg-yellow-50 p-3 text-sm text-yellow-800">
+              This listing is pending review and isn&apos;t visible to other users yet. We&apos;ll email you once it&apos;s cleared.
+            </p>
+          )}
+
           {listing.description && <p className="whitespace-pre-line text-gray-700">{listing.description}</p>}
 
           <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5">

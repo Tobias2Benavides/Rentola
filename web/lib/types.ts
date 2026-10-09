@@ -26,6 +26,8 @@ export interface Listing {
   city: string
   photos: string[]
   is_active: boolean
+  needs_review: boolean
+  flag_reason: string | null
   created_at: string
 }
 
