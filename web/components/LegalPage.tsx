@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Footer from '@/components/Footer'
 
 // Shared shell for every /terms, /privacy, /cookies, etc. page -- renders
 // pre-converted markdown HTML (see lib/legal.ts) inside consistent prose
@@ -22,6 +23,8 @@ export default function LegalPage({ html }: { html: string }) {
         className="prose prose-gray mx-auto max-w-2xl px-6 py-16 prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900"
         dangerouslySetInnerHTML={{ __html: html }}
       />
+
+      <Footer />
     </div>
   )
 }

@@ -17,7 +17,7 @@ For users, and for authorities (such as the Autoriteit Consument & Markt or the 
 
 We accept communication in **English** and **Dutch**.
 
-## Reporting illegal or prohibited content
+<h2 id="report">Reporting illegal or prohibited content</h2>
 
 Use the **Report** button available on every listing, user profile, message thread, and booking, or email [CONTACT_EMAIL]. See our [Prohibited Items & Conduct](/prohibited) page for what's not allowed, and our [Terms of Service](/terms) Section 9 for how reports are reviewed and how removal or suspension decisions can be contested.
 
