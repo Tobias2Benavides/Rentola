@@ -5,6 +5,7 @@ import { formatDate, formatPrice } from '@/lib/format'
 import RentalActions from '@/components/RentalActions'
 import ReviewForm from '@/components/ReviewForm'
 import BlockUserButton from '@/components/BlockUserButton'
+import ReportButton from '@/components/ReportButton'
 import Chat from '@/components/Chat'
 import type { Listing, Profile, Rental, RentalStatus, Review } from '@/lib/types'
 
@@ -92,12 +93,16 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
               {isOwner ? 'Renter' : 'Owner'}: {otherParty?.display_name ?? 'Rentify user'}
             </p>
             {otherParty && (
-              <div className="mt-1">
+              <div className="mt-1 flex items-center gap-2">
                 <BlockUserButton
                   userId={otherParty.id}
                   userName={otherParty.display_name ?? 'this user'}
                   initialIsBlocked={isOtherPartyBlocked}
                 />
+                <span className="text-gray-300">·</span>
+                <ReportButton targetType="user" targetId={otherParty.id} label="Report this user" currentUserEmail={user?.email} />
+                <span className="text-gray-300">·</span>
+                <ReportButton targetType="booking" targetId={rental.id} label="Report this booking" currentUserEmail={user?.email} />
               </div>
             )}
           </div>
@@ -180,7 +185,7 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
         )
       )}
 
-      <Chat rentalId={rental.id} currentUserId={user!.id} />
+      <Chat rentalId={rental.id} currentUserId={user!.id} currentUserEmail={user?.email} />
     </div>
   )
 }

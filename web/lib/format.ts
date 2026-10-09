@@ -10,6 +10,18 @@ export function formatDate(isoDate: string): string {
   })
 }
 
+// Explicit locale and timeZone so server-rendered and client-hydrated
+// output always match -- an implicit toLocaleString() otherwise follows
+// each environment's own default locale, which mismatches and trips
+// React's hydration check (seen with admin/reports' report timestamps).
+export function formatDateTime(isoTimestamp: string): string {
+  return new Date(isoTimestamp).toLocaleString('en-US', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    timeZone: 'UTC',
+  })
+}
+
 export function rentalDays(startDate: string, endDate: string): number {
   const start = new Date(startDate + 'T00:00:00')
   const end = new Date(endDate + 'T00:00:00')

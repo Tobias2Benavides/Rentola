@@ -2,9 +2,18 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import ReportButton from '@/components/ReportButton'
 import type { Message } from '@/lib/types'
 
-export default function Chat({ rentalId, currentUserId }: { rentalId: string; currentUserId: string }) {
+export default function Chat({
+  rentalId,
+  currentUserId,
+  currentUserEmail,
+}: {
+  rentalId: string
+  currentUserId: string
+  currentUserEmail?: string | null
+}) {
   const [messages, setMessages] = useState<Message[]>([])
   const [draft, setDraft] = useState('')
   const [isSending, setIsSending] = useState(false)
@@ -53,8 +62,9 @@ export default function Chat({ rentalId, currentUserId }: { rentalId: string; cu
 
   return (
     <div className="flex flex-col rounded-2xl bg-white shadow-sm ring-1 ring-gray-900/5">
-      <div className="border-b border-gray-100 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
         <p className="font-semibold text-gray-900">Messages</p>
+        <ReportButton targetType="message" targetId={rentalId} label="Report this thread" currentUserEmail={currentUserEmail} />
       </div>
 
       <div className="flex h-64 flex-col gap-2 overflow-y-auto px-4 py-3">

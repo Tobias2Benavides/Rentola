@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { formatPrice } from '@/lib/format'
 import RequestRentalForm from '@/components/RequestRentalForm'
-import ReportListingButton from '@/components/ReportListingButton'
+import ReportButton from '@/components/ReportButton'
 import BlockUserButton from '@/components/BlockUserButton'
 import type { Listing, Profile } from '@/lib/types'
 
@@ -96,7 +96,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 initialIsBlocked={isOwnerBlocked}
               />
               <span className="text-gray-300">·</span>
-              <ReportListingButton listingId={listing.id} />
+              <ReportButton targetType="listing" targetId={listing.id} label="Report this listing" currentUserEmail={user?.email} />
+              <span className="text-gray-300">·</span>
+              <ReportButton targetType="user" targetId={listing.owner_id} label="Report this user" currentUserEmail={user?.email} />
             </div>
           )}
 

@@ -3,13 +3,25 @@ import { createClient } from '@/lib/supabase/server'
 import NavBar from '@/components/NavBar'
 import Footer from '@/components/Footer'
 import TermsGateModal from '@/components/TermsGateModal'
+import SuspendedScreen from '@/components/SuspendedScreen'
 import { CURRENT_TERMS_VERSION, TERMS_DOCUMENTS } from '@/lib/termsConfig'
+import type { Profile } from '@/lib/types'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) redirect('/sign-in')
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('suspended_at, suspension_reason')
+    .eq('id', user.id)
+    .single<Pick<Profile, 'suspended_at' | 'suspension_reason'>>()
+
+  if (profile?.suspended_at) {
+    return <SuspendedScreen reason={profile.suspension_reason} />
+  }
 
   const { data: acceptances } = await supabase
     .from('terms_acceptances')

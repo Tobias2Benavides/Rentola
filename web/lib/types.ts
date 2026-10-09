@@ -10,6 +10,9 @@ export interface Profile {
   stripe_account_id: string | null
   stripe_onboarding_complete: boolean
   payment_instructions: string | null
+  is_admin: boolean
+  suspended_at: string | null
+  suspension_reason: string | null
 }
 
 export interface Listing {
@@ -75,15 +78,51 @@ export interface Review {
   created_at: string
 }
 
-export type ReportReason = 'inappropriate' | 'prohibited_item' | 'spam' | 'scam' | 'other'
+export type ReportReason =
+  | 'illegal_prohibited_item'
+  | 'stolen_item'
+  | 'scam_fraud'
+  | 'harassment'
+  | 'fake_listing'
+  | 'safety_issue'
+  | 'ip_infringement'
+  | 'other'
+
+export type ReportTargetType = 'listing' | 'user' | 'message' | 'booking'
+export type ReportStatus = 'open' | 'reviewing' | 'actioned' | 'dismissed'
 
 export interface Report {
   id: string
-  reporter_id: string
-  listing_id: string
+  reporter_id: string | null
+  reporter_email: string | null
+  target_type: ReportTargetType
+  target_id: string
   reason: ReportReason
   details: string | null
-  status: 'open' | 'resolved' | 'dismissed'
+  evidence_paths: string[]
+  status: ReportStatus
+  created_at: string
+  resolved_at: string | null
+  resolution_note: string | null
+}
+
+export type ModerationActionType =
+  | 'listing_removed'
+  | 'listing_restored'
+  | 'user_suspended'
+  | 'user_unsuspended'
+  | 'report_dismissed'
+  | 'report_actioned'
+  | 'note_added'
+
+export interface ModerationAction {
+  id: string
+  target_type: ReportTargetType
+  target_id: string
+  action: ModerationActionType
+  reason: string
+  based_on_report_id: string | null
+  created_by: string
   created_at: string
 }
 
