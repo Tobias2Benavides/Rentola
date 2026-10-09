@@ -16,6 +16,14 @@ const nextConfig = {
         hostname: '*.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        // Signed URLs for private buckets (report-evidence, handover-photos)
+        // use /object/sign/, not /object/public/ -- without this, next/image
+        // refuses to load them.
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/storage/v1/object/sign/**',
+      },
     ],
   },
 }

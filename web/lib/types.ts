@@ -59,6 +59,20 @@ export interface Rental {
   late_fee_amount: number | null
   late_fee_status: 'charged' | 'failed' | 'no_payment_method' | null
   late_fee_payment_intent_id: string | null
+  agreement_accepted_at: string | null
+  created_at: string
+}
+
+export type HandoverStage = 'pickup' | 'return'
+
+export interface HandoverPhoto {
+  id: string
+  rental_id: string
+  uploaded_by: string
+  stage: HandoverStage
+  photo_path: string
+  condition_ok: boolean
+  issue_description: string | null
   created_at: string
 }
 

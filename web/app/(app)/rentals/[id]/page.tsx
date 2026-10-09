@@ -6,6 +6,7 @@ import RentalActions from '@/components/RentalActions'
 import ReviewForm from '@/components/ReviewForm'
 import BlockUserButton from '@/components/BlockUserButton'
 import ReportButton from '@/components/ReportButton'
+import HandoverPhotos from '@/components/HandoverPhotos'
 import Chat from '@/components/Chat'
 import type { Listing, Profile, Rental, RentalStatus, Review } from '@/lib/types'
 
@@ -157,6 +158,14 @@ export default async function RentalDetailPage({ params }: { params: { id: strin
           />
         </div>
       </div>
+
+      {['approved', 'active', 'returned'].includes(rental.status) && (
+        <HandoverPhotos rentalId={rental.id} stage="pickup" currentUserId={user!.id} />
+      )}
+
+      {['active', 'returned'].includes(rental.status) && (
+        <HandoverPhotos rentalId={rental.id} stage="return" currentUserId={user!.id} />
+      )}
 
       {rental.status === 'returned' && otherParty && (
         myReview ? (

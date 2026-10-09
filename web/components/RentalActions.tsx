@@ -178,6 +178,7 @@ export default function RentalActions({
               <p className="font-semibold">Pay the owner directly:</p>
               <p className="mt-1 whitespace-pre-line">{paymentInstructions}</p>
               <p className="mt-2 text-xs text-yellow-700">
+                This goes directly from you to the owner — Rentify never receives or holds this payment.
                 They&apos;ll mark this rental as paid once it arrives.
               </p>
             </>

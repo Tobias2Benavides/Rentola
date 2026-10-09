@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { formatPrice, rentalDays } from '@/lib/format'
 import AvailabilityCalendar from '@/components/AvailabilityCalendar'
@@ -25,12 +26,13 @@ export default function RequestRentalForm({
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [message, setMessage] = useState('')
+  const [agreementAccepted, setAgreementAccepted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const days = startDate && endDate ? rentalDays(startDate, endDate) : 0
   const total = days > 0 ? days * pricePerDay : 0
-  const isDisabled = !startDate || !endDate || days <= 0 || isLoading
+  const isDisabled = !startDate || !endDate || days <= 0 || !agreementAccepted || isLoading
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -43,6 +45,7 @@ export default function RequestRentalForm({
       p_start_date: startDate,
       p_end_date: endDate,
       p_message: message.trim(),
+      p_agreement_accepted: agreementAccepted,
     })
 
     setIsLoading(false)
@@ -86,6 +89,28 @@ export default function RequestRentalForm({
           <span className="font-semibold text-gray-900">{formatPrice(total)}</span>
         </div>
       )}
+
+      <div className="space-y-1.5 rounded-xl bg-gray-50 p-3 text-xs text-gray-500">
+        <p>The lister is a private individual, not a trader -- the EU 14-day consumer withdrawal right doesn&apos;t apply to this booking.</p>
+        <p>Rentify provides no insurance for this rental.</p>
+        <p>Payment happens via Stripe Checkout once the owner approves, or directly between you and the owner if they haven&apos;t connected Stripe payouts yet.</p>
+      </div>
+
+      <label className="flex items-start gap-2.5 text-xs text-gray-600">
+        <input
+          type="checkbox"
+          checked={agreementAccepted}
+          onChange={(e) => setAgreementAccepted(e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-emerald-700 focus:ring-emerald-600"
+        />
+        <span>
+          I accept the{' '}
+          <Link href="/rental-agreement" target="_blank" className="underline underline-offset-4 hover:text-gray-900">
+            Rental Agreement
+          </Link>{' '}
+          for this booking.
+        </span>
+      </label>
 
       {error && <p className="text-sm text-red-500">{error}</p>}
 
