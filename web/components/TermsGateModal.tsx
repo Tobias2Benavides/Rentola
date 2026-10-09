@@ -39,7 +39,7 @@ export default function TermsGateModal({ outdatedDocuments }: TermsGateModalProp
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 px-4">
+    <div data-testid="terms-gate-modal" className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 px-4">
       <div className="w-full max-w-md space-y-4 rounded-2xl bg-white p-6 shadow-xl">
         <h2 className="text-lg font-bold text-gray-900">We&apos;ve updated our terms</h2>
         <p className="text-sm text-gray-600">

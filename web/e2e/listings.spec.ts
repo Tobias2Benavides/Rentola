@@ -16,6 +16,9 @@ test('creating a listing publishes it and shows up on its detail page', async ({
   await page.getByPlaceholder("Condition, what's included, pickup instructions…").fill('Created by an automated test -- safe to ignore or delete.')
   await page.getByPlaceholder('15.00').fill('1')
   await page.getByPlaceholder('Start typing a city…').fill('Tilburg')
+  await page.getByText('I own this item or am allowed to rent it out.').click()
+  await page.getByText('This item is safe and accurately described.').click()
+  await page.getByText('This item is not on the').click()
 
   await page.getByRole('button', { name: 'Publish Listing' }).click()
 
