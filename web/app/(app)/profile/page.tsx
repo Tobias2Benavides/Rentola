@@ -196,6 +196,13 @@ export default async function ProfilePage() {
           </div>
         </div>
       )}
+
+      <Link
+        href="/account"
+        className="block text-center text-sm font-medium text-gray-400 hover:text-gray-600"
+      >
+        Account settings — download my data or delete my account
+      </Link>
     </div>
   )
 }

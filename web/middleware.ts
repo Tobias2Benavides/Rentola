@@ -32,11 +32,23 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Redirect unauthenticated users away from protected routes
-  const protectedPaths = ['/browse', '/dashboard', '/profile', '/listings', '/rentals', '/earnings', '/requests']
+  const protectedPaths = ['/browse', '/dashboard', '/profile', '/listings', '/rentals', '/earnings', '/requests', '/account', '/admin']
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p))
 
   if (!user && isProtected) {
     return NextResponse.redirect(new URL('/sign-in', request.url))
+  }
+
+  // A deleted account is anonymized but kept (see 018_account_deletion.sql)
+  // -- its auth email is also randomized so password/magic-link sign-in
+  // can't succeed again, but an already-live session's cookie would still
+  // pass getUser() above, so check deleted_at explicitly and force it out.
+  if (user && isProtected) {
+    const { data: profile } = await supabase.from('profiles').select('deleted_at').eq('id', user.id).single()
+    if (profile?.deleted_at) {
+      await supabase.auth.signOut()
+      return NextResponse.redirect(new URL('/sign-in', request.url))
+    }
   }
 
   // Redirect authenticated users away from auth pages

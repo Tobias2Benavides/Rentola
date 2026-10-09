@@ -13,6 +13,7 @@ export interface Profile {
   is_admin: boolean
   suspended_at: string | null
   suspension_reason: string | null
+  deleted_at: string | null
 }
 
 export interface Listing {
