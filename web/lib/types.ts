@@ -94,6 +94,15 @@ export interface Block {
   created_at: string
 }
 
+export interface TermsAcceptance {
+  id: string
+  user_id: string
+  document: 'terms' | 'rental_agreement' | 'privacy'
+  version: number
+  accepted_at: string
+  user_agent: string | null
+}
+
 export interface Notification {
   id: string
   user_id: string

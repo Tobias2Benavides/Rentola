@@ -2,10 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import { marked } from 'marked'
 
-// Bumped whenever terms.md, rental-agreement.md, or privacy.md changes in a
-// way that needs re-acceptance. See TermsGateModal / accept_terms RPC.
-export const CURRENT_TERMS_VERSION = 1
-
 export type LegalSlug =
   | 'terms'
   | 'rental-agreement'

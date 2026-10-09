@@ -3,17 +3,19 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { recordTermsAcceptance } from '@/lib/termsAcceptance'
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
   const isDisabled =
-    !email || !password || !confirmPassword || password !== confirmPassword || isLoading
+    !email || !password || !confirmPassword || password !== confirmPassword || !agreedToTerms || isLoading
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -21,13 +23,21 @@ export default function SignUpPage() {
     setIsLoading(true)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     })
+
+    if (!error && data.session) {
+      // Email confirmation is off (or already satisfied) -- a session
+      // exists immediately, so record the acceptance now. Otherwise
+      // TermsGateModal records it on first sign-in, once a session
+      // exists, since RLS requires an authenticated user_id either way.
+      await recordTermsAcceptance(supabase)
+    }
 
     setIsLoading(false)
     if (error) {
@@ -114,6 +124,30 @@ export default function SignUpPage() {
             )}
           </div>
 
+          <label className="flex items-start gap-2.5 text-xs text-gray-500">
+            <input
+              type="checkbox"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-emerald-700 focus:ring-emerald-600"
+            />
+            <span>
+              I am 18 or older and I agree to the{' '}
+              <Link href="/terms" target="_blank" className="underline underline-offset-4 hover:text-gray-700">
+                Terms of Service
+              </Link>
+              , the{' '}
+              <Link href="/rental-agreement" target="_blank" className="underline underline-offset-4 hover:text-gray-700">
+                Rental Agreement
+              </Link>
+              , and the{' '}
+              <Link href="/privacy" target="_blank" className="underline underline-offset-4 hover:text-gray-700">
+                Privacy Policy
+              </Link>
+              .
+            </span>
+          </label>
+
           {error && <p className="text-sm text-red-500">{error}</p>}
 
           <button
@@ -124,18 +158,6 @@ export default function SignUpPage() {
             {isLoading ? 'Creating account…' : 'Create Account'}
           </button>
         </form>
-
-        <p className="mt-4 text-center text-xs text-gray-400">
-          By creating an account, you agree to our{' '}
-          <Link href="/terms" className="underline underline-offset-4 hover:text-gray-600">
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link href="/privacy" className="underline underline-offset-4 hover:text-gray-600">
-            Privacy Policy
-          </Link>
-          .
-        </p>
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
