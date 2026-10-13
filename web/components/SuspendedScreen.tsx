@@ -23,8 +23,8 @@ export default function SuspendedScreen({ reason }: { reason: string | null }) {
         {reason && <p className="text-gray-600">Reason: {reason}</p>}
         <p className="text-sm text-gray-500">
           If you believe this is a mistake, email{' '}
-          <a href="mailto:[CONTACT_EMAIL]" className="text-emerald-700 underline underline-offset-4">
-            [CONTACT_EMAIL]
+          <a href="mailto:tobiasisaac45@gmail.com" className="text-emerald-700 underline underline-offset-4">
+            tobiasisaac45@gmail.com
           </a>{' '}
           to contest it. See also our{' '}
           <a href="/contact" className="text-emerald-700 underline underline-offset-4">

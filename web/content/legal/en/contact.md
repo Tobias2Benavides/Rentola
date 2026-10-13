@@ -8,18 +8,18 @@
 
 Rentify is operated by **Tobias Benavides**, a private individual (natural person), not a company. Rentify is a **micro-enterprise** online platform / hosting service provider within the meaning of the EU Digital Services Act.
 
-- Email: [CONTACT_EMAIL]
+- Email: tobiasisaac45@gmail.com
 - Address: [ADDRESS – TBD]
 
 ## Single point of contact
 
-For users, and for authorities (such as the Autoriteit Consument & Markt or the Autoriteit Persoonsgegevens) under the Digital Services Act, the single point of contact for Rentify is: [CONTACT_EMAIL].
+For users, and for authorities (such as the Autoriteit Consument & Markt or the Autoriteit Persoonsgegevens) under the Digital Services Act, the single point of contact for Rentify is: tobiasisaac45@gmail.com.
 
 We accept communication in **English** and **Dutch**.
 
 <h2 id="report">Reporting illegal or prohibited content</h2>
 
-Use the **Report** button available on every listing, user profile, message thread, and booking, or email [CONTACT_EMAIL]. See our [Prohibited Items & Conduct](/prohibited) page for what's not allowed, and our [Terms of Service](/terms) Section 9 for how reports are reviewed and how removal or suspension decisions can be contested.
+Use the **Report** button available on every listing, user profile, message thread, and booking, or email tobiasisaac45@gmail.com. See our [Prohibited Items & Conduct](/prohibited) page for what's not allowed, and our [Terms of Service](/terms) Section 9 for how reports are reviewed and how removal or suspension decisions can be contested.
 
 ## Other documents
 

@@ -32,4 +32,4 @@ You may not use Rentify to:
 
 ## Reporting
 
-If you see a listing or user that may violate this page, use the **Report** button on the listing, profile, message, or booking, or contact us at [CONTACT_EMAIL]. See our [Contact & Legal Info](/contact) page for how reports are handled.
+If you see a listing or user that may violate this page, use the **Report** button on the listing, profile, message, or booking, or contact us at tobiasisaac45@gmail.com. See our [Contact & Legal Info](/contact) page for how reports are handled.

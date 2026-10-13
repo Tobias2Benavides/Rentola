@@ -6,7 +6,7 @@
 
 ## Controller
 
-Rentify is operated by Tobias Benavides, a private individual, who is the data controller for the personal data described below. Contact: [CONTACT_EMAIL]. Registered address: [ADDRESS – TBD].
+Rentify is operated by Tobias Benavides, a private individual, who is the data controller for the personal data described below. Contact: tobiasisaac45@gmail.com. Registered address: [ADDRESS – TBD].
 
 ## 1. What we collect
 
@@ -56,7 +56,7 @@ Our processors are chosen to be EU-based where practical (Supabase, Resend). Whe
 
 ## 6. Your rights
 
-Under the GDPR, you have the right to access, correct, delete, or export your data, and to object to or restrict certain processing. Most of this is available directly from your Account settings (view, edit, export, or request deletion). For anything else, email [CONTACT_EMAIL].
+Under the GDPR, you have the right to access, correct, delete, or export your data, and to object to or restrict certain processing. Most of this is available directly from your Account settings (view, edit, export, or request deletion). For anything else, email tobiasisaac45@gmail.com.
 
 You also have the right to lodge a complaint with the Dutch data protection authority, the **Autoriteit Persoonsgegevens** (autoriteitpersoonsgegevens.nl), or with the supervisory authority in your own EU member state.
 

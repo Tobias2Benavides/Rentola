@@ -4,7 +4,7 @@
 
 **Version 1 — Effective October 8, 2026**
 
-Rentify is operated by Tobias Benavides, a private individual (not a company), trading as "Rentify" ("we", "us", "Rentify"). Contact: [CONTACT_EMAIL]. Registered address: [ADDRESS – TBD].
+Rentify is operated by Tobias Benavides, a private individual (not a company), trading as "Rentify" ("we", "us", "Rentify"). Contact: tobiasisaac45@gmail.com. Registered address: [ADDRESS – TBD].
 
 By creating an account you agree to these Terms, to the [User-to-User Rental Agreement](/rental-agreement), and to our [Privacy Policy](/privacy).
 
@@ -63,7 +63,7 @@ Listing prohibited items, or engaging in prohibited conduct, is covered in full 
 
 You can report a listing, user, message, or booking at any time using the report tool available throughout the platform. We review reports and may remove a listing, suspend an account temporarily or permanently, or take other proportionate action where we reasonably believe these Terms, the law, or platform safety have been violated.
 
-Where we remove your listing or suspend your account, we will tell you what we did, the rule or law it was based on, whether it followed a user report, and how to contest the decision by replying to the notice or emailing [CONTACT_EMAIL]. This follows Article 17 of the EU Digital Services Act.
+Where we remove your listing or suspend your account, we will tell you what we did, the rule or law it was based on, whether it followed a user report, and how to contest the decision by replying to the notice or emailing tobiasisaac45@gmail.com. This follows Article 17 of the EU Digital Services Act.
 
 ## 10. Liability
 
@@ -100,4 +100,4 @@ These Terms are governed by the laws of the Netherlands. Nothing in this section
 
 ## 17. Contact
 
-Questions about these Terms: [CONTACT_EMAIL]. See also our [Contact & Legal Info](/contact) page.
+Questions about these Terms: tobiasisaac45@gmail.com. See also our [Contact & Legal Info](/contact) page.
