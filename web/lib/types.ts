@@ -25,6 +25,9 @@ export interface Listing {
   price_per_day: number
   price_per_week: number | null
   city: string
+  address: string | null
+  latitude: number | null
+  longitude: number | null
   photos: string[]
   is_active: boolean
   needs_review: boolean

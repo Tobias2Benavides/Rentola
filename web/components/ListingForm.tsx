@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES } from '@/lib/categories'
 import { CITIES } from '@/lib/cities'
 import { matchProhibitedKeyword } from '@/lib/prohibitedKeywords'
+import LocationPicker, { type LocationValue } from '@/components/map/LocationPicker'
 import type { Listing } from '@/lib/types'
 
 const MAX_PHOTOS = 5
@@ -20,7 +21,10 @@ interface ExistingPhoto {
 interface ListingFormProps {
   mode: 'create' | 'edit'
   listingId?: string
-  initial?: Pick<Listing, 'title' | 'description' | 'category' | 'price_per_day' | 'price_per_week' | 'city'> & {
+  initial?: Pick<
+    Listing,
+    'title' | 'description' | 'category' | 'price_per_day' | 'price_per_week' | 'city' | 'address' | 'latitude' | 'longitude'
+  > & {
     photos: ExistingPhoto[]
   }
 }
@@ -35,6 +39,11 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
   const [pricePerDay, setPricePerDay] = useState(initial?.price_per_day?.toString() ?? '')
   const [pricePerWeek, setPricePerWeek] = useState(initial?.price_per_week?.toString() ?? '')
   const [city, setCity] = useState(initial?.city ?? '')
+  const [location, setLocation] = useState<LocationValue>({
+    address: initial?.address ?? null,
+    latitude: initial?.latitude ?? null,
+    longitude: initial?.longitude ?? null,
+  })
   const [existingPhotos, setExistingPhotos] = useState<ExistingPhoto[]>(initial?.photos ?? [])
   const [newFiles, setNewFiles] = useState<{ file: File; preview: string }[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -123,6 +132,9 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
       price_per_day: parseFloat(pricePerDay),
       price_per_week: pricePerWeek ? parseFloat(pricePerWeek) : null,
       city: city.trim(),
+      address: location.address,
+      latitude: location.latitude,
+      longitude: location.longitude,
       photos,
       needs_review: matchedKeyword !== null,
       flag_reason: matchedKeyword ? `Matched keyword: "${matchedKeyword}"` : null,
@@ -300,6 +312,8 @@ export default function ListingForm({ mode, listingId, initial }: ListingFormPro
           ))}
         </datalist>
       </div>
+
+      <LocationPicker value={location} onChange={setLocation} />
 
       {/* Required attestations */}
       <div className="space-y-2.5 rounded-xl bg-gray-50 p-4">

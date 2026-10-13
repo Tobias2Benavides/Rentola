@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { formatPrice } from '@/lib/format'
+import MapCore from '@/components/map/MapCoreLoader'
 import RequestRentalForm from '@/components/RequestRentalForm'
 import ReportButton from '@/components/ReportButton'
 import BlockUserButton from '@/components/BlockUserButton'
@@ -66,6 +67,25 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             <h1 className="text-2xl font-bold text-gray-900">{listing.title}</h1>
             <p className="mt-1 text-gray-500">{listing.city}</p>
           </div>
+
+          {listing.latitude != null && listing.longitude != null && (
+            <div className="space-y-2">
+              {listing.address && <p className="text-sm text-gray-500">{listing.address}</p>}
+              <MapCore
+                markers={[{ id: listing.id, lat: listing.latitude, lng: listing.longitude }]}
+                center={{ lat: listing.latitude, lng: listing.longitude }}
+                zoom={15}
+              />
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${listing.latitude},${listing.longitude}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-sm font-medium text-emerald-700 underline underline-offset-4 hover:text-emerald-800"
+              >
+                Get directions
+              </a>
+            </div>
+          )}
 
           <p className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
             Offered by a private individual. Rentify is not a party to this rental.
