@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import EarningsCalculator from '@/components/EarningsCalculator'
 
 export default function HomePage() {
   return (
@@ -84,6 +85,17 @@ export default function HomePage() {
               <p className="font-semibold text-gray-900">Built on trust</p>
               <p className="mt-0.5 text-sm text-gray-500">Ratings and reviews after every rental</p>
             </div>
+          </div>
+        </div>
+
+        {/* Earnings calculator */}
+        <div className="mt-20 w-full max-w-md text-left">
+          <h2 className="text-center text-2xl font-bold text-gray-900">See what you could earn</h2>
+          <p className="mt-2 text-center text-gray-500">
+            Have something sitting around? Here&apos;s a rough idea of what listing it could bring in.
+          </p>
+          <div className="mt-8">
+            <EarningsCalculator />
           </div>
         </div>
       </main>

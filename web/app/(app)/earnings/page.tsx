@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { formatDate, formatPrice } from '@/lib/format'
 import { PLATFORM_FEE_BPS } from '@/lib/stripe'
+import EarningsCalculator from '@/components/EarningsCalculator'
 import type { Listing, Rental } from '@/lib/types'
 
 export default async function EarningsPage() {
@@ -56,6 +57,14 @@ export default async function EarningsPage() {
           <p className="mt-1 text-2xl font-bold text-gray-900">{formatPrice(platformFee)}</p>
           <p className="mt-1 text-xs text-gray-400">{PLATFORM_FEE_BPS / 100}% of what you collect</p>
         </div>
+      </div>
+
+      <div className="space-y-3">
+        <div>
+          <h2 className="font-semibold text-gray-900">Estimate future earnings</h2>
+          <p className="text-sm text-gray-500">A projection, not your actual numbers above — play with the sliders.</p>
+        </div>
+        <EarningsCalculator />
       </div>
 
       <div className="space-y-3">
