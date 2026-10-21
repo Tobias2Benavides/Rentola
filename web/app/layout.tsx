@@ -1,5 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 import './globals.css'
 
 const geistSans = localFont({
@@ -17,12 +18,24 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Rentify',
   description: 'Rent anything from people nearby',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Rentify',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#047857',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <ServiceWorkerRegister />
+      </body>
     </html>
   )
 }
