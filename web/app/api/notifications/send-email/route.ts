@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true, skipped: 'no email on file' })
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rentify.nl'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rentifyapp.nl'
   const link = notification.link ? `${siteUrl}${notification.link}` : siteUrl
 
   const res = await fetch('https://api.resend.com/emails', {
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Rentify <notifications@rentify.nl>',
+      from: 'Rentify <notifications@rentifyapp.nl>',
       to: email,
       subject: notification.title,
       html: `<p>${notification.body ?? ''}</p><p><a href="${link}">View on Rentify</a></p>`,

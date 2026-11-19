@@ -5,7 +5,7 @@ import { signInAs } from './auth'
 const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
 async function createDisposableUser(prefix: string, isAdmin: boolean) {
-  const email = `${prefix}-${Date.now()}@rentify.nl`
+  const email = `${prefix}-${Date.now()}@rentifyapp.nl`
   const password = 'TestPassword123!'
   const { data, error } = await admin.auth.admin.createUser({ email, password, email_confirm: true })
   if (error || !data.user) throw error ?? new Error('createUser failed')

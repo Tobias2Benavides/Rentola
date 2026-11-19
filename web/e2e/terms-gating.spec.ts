@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test'
 const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
 async function createDisposableUser(prefix: string) {
-  const email = `${prefix}-${Date.now()}@rentify.nl`
+  const email = `${prefix}-${Date.now()}@rentifyapp.nl`
   const password = 'TestPassword123!'
   const { data, error } = await admin.auth.admin.createUser({ email, password, email_confirm: true })
   if (error || !data.user) throw error ?? new Error('createUser failed')
@@ -41,7 +41,7 @@ test('a brand-new user sees the terms modal and must agree before using the app'
 
 test('signup is blocked until the terms checkbox is checked', async ({ page }) => {
   await page.goto('/sign-up')
-  await page.getByPlaceholder('you@example.com').fill(`signup-check-${Date.now()}@rentify.nl`)
+  await page.getByPlaceholder('you@example.com').fill(`signup-check-${Date.now()}@rentifyapp.nl`)
   await page.getByPlaceholder('At least 8 characters').fill('TestPassword123!')
   await page.getByPlaceholder('Re-enter your password').fill('TestPassword123!')
 
