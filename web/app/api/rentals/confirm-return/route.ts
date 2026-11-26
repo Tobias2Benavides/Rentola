@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       try {
         const paymentIntent = await getStripe().paymentIntents.create({
           amount: amountCents,
-          currency: 'usd',
+          currency: 'eur',
           customer: rental.stripe_customer_id,
           payment_method: rental.stripe_payment_method_id,
           off_session: true,
