@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     line_items: [
       {
         price_data: {
-          currency: 'usd',
+          currency: 'eur',
           unit_amount: amountCents,
           product_data: { name: listing?.title ?? 'Rentify rental' },
         },
